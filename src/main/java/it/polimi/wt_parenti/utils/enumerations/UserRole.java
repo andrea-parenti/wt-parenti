@@ -3,7 +3,7 @@ package it.polimi.wt_parenti.utils.enumerations;
 /**
  * This enum lists all the possible roles of a user and exposes utility methods to work with them.
  */
-public enum Role {
+public enum UserRole {
     STUDENT, PROFESSOR;
 
     /**
