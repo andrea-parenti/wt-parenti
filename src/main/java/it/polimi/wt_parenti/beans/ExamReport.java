@@ -1,8 +1,9 @@
 package it.polimi.wt_parenti.beans;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class ExamReport {
+public class ExamReport implements Serializable {
     private int id;
     private LocalDateTime creation;
 

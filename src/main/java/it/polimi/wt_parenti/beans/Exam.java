@@ -3,7 +3,9 @@ package it.polimi.wt_parenti.beans;
 import it.polimi.wt_parenti.utils.enumerations.ExamResult;
 import it.polimi.wt_parenti.utils.enumerations.ExamStatus;
 
-public class Exam {
+import java.io.Serializable;
+
+public class Exam implements Serializable {
     private int id;
     private ExamSession examSession;
     private Student student;

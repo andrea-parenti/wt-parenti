@@ -1,6 +1,8 @@
 package it.polimi.wt_parenti.beans;
 
-public class Professor {
+import java.io.Serializable;
+
+public class Professor implements Serializable {
     private int id;
     private String name;
     private String surname;

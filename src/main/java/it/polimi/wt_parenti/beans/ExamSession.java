@@ -1,8 +1,9 @@
 package it.polimi.wt_parenti.beans;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ExamSession {
+public class ExamSession implements Serializable {
     private int id;
     private LocalDate date;
     private Course course;
