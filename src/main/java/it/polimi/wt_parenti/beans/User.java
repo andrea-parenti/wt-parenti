@@ -2,7 +2,12 @@ package it.polimi.wt_parenti.beans;
 
 import it.polimi.wt_parenti.utils.enumerations.UserRole;
 
-public class User {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private int id;
     private String username;
     private UserRole role;

@@ -12,6 +12,13 @@
     <title>Login</title>
 </head>
 <body>
-
+<h1>Welcome to Exam Management Application</h1>
+<form action="CheckLogin" method="POST">
+    username: <input type="text" name="username">
+    <br>
+    password: <input type="password" name="password">
+    <br>
+    <input type="submit" value="login">
+</form>
 </body>
 </html>

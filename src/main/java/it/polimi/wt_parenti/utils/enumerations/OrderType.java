@@ -20,10 +20,7 @@ public enum OrderType {
      * @throws IllegalArgumentException If the given String cannot be associated to any order type.
      */
     public static OrderType fromString(final String order) throws IllegalArgumentException {
-        var str = order.toUpperCase();
-        for (var o : values())
-            if (str.equals(o.name())) return o;
-        throw new IllegalArgumentException(order + " is not a valid order type!");
+        return valueOf(order.toUpperCase());
     }
 
     @Override

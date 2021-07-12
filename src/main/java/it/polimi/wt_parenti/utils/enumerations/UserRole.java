@@ -17,6 +17,15 @@ public enum UserRole {
         return false;
     }
 
+    /**
+     * @param role A String that can identify a user role.
+     * @return The corresponding role.
+     * @throws IllegalArgumentException If the given String cannot be associated to any user role.
+     */
+    public static UserRole fromString(final String role) throws IllegalArgumentException {
+        return valueOf(role.toUpperCase());
+    }
+
     @Override
     public String toString() {
         return super.toString();
