@@ -3,7 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
     <display-name>WT-Parenti-Gestione-Esami</display-name>
+
     <context-param>
         <param-name>DB_DRIVER</param-name>
         <param-value>com.mysql.cj.jdbc.Driver</param-value>
@@ -20,4 +22,9 @@
         <param-name>DB_PASSWORD</param-name>
         <param-value>Gh8GSSzLKg3@T94#</param-value>
     </context-param>
+
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
+
 </web-app>
