@@ -33,6 +33,8 @@ public class StudentChecker implements Filter {
             return;
         }
 
+        // TODO: server-side login check (student's id = user's id)
+
         chain.doFilter(request, response);
     }
 
