@@ -18,7 +18,7 @@ public class UserDAO {
         if (username == null) return Optional.empty();
         var query = """
                 SELECT
-                    id, username, role
+                    user_id, username, role
                 FROM
                     users
                 WHERE
@@ -31,7 +31,7 @@ public class UserDAO {
                 if (!result.isBeforeFirst()) return Optional.empty();
                 result.next();
                 var loggedUser = new User();
-                loggedUser.setId(result.getInt("id"));
+                loggedUser.setId(result.getInt("user_id"));
                 loggedUser.setUsername(result.getString("username"));
                 loggedUser.setRole(UserRole.fromString(result.getString("role")));
                 return Optional.of(loggedUser);
@@ -46,7 +46,7 @@ public class UserDAO {
                 FROM
                     users
                 WHERE
-                    id = ? AND username = ? AND role = ?
+                    user_id = ? AND username = ? AND role = ?
                 """;
         try (var statement = connection.prepareStatement(query)) {
             statement.setInt(1, user.getId());

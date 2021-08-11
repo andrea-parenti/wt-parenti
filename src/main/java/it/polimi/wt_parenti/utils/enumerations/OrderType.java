@@ -22,9 +22,4 @@ public enum OrderType {
     public static OrderType fromString(final String order) throws IllegalArgumentException {
         return valueOf(order.toUpperCase());
     }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

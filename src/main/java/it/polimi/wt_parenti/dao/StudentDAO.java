@@ -23,7 +23,7 @@ public class StudentDAO {
                 FROM
                     students
                 WHERE
-                    id = ?
+                    student_id = ?
                 """;
         try (var statement = connection.prepareStatement(query)) {
             statement.setInt(1, user.getId());
@@ -37,18 +37,18 @@ public class StudentDAO {
         if (user == null || user.getRole() != UserRole.STUDENT) return Optional.empty();
         var query = """
                 SELECT
-                    id, name, surname, email, bachelor_course
+                    student_id, name, surname, email, bachelor_course
                 FROM
                     students
                 WHERE
-                    id = ?
+                    student_id = ?
                 """;
         try (var statement = connection.prepareStatement(query)) {
             statement.setInt(1, user.getId());
             try (var result = statement.executeQuery()) {
                 if (!result.isBeforeFirst()) return Optional.empty();
                 var s = new Student();
-                s.setId(result.getInt("id"));
+                s.setId(result.getInt("student_id"));
                 s.setName(result.getString("name"));
                 s.setSurname(result.getString("surname"));
                 s.setEmail(result.getString("email"));
