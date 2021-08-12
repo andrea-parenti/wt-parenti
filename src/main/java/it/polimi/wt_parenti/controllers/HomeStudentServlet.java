@@ -47,7 +47,7 @@ public class HomeStudentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        doGet(request, response);
     }
 
     @Override

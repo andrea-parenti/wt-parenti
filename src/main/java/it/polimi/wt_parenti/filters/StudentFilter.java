@@ -9,15 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "StudentFilter")
+@WebFilter(filterName = "StudentFilter", urlPatterns = {"/HomeStudent"})
 public class StudentFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        System.out.println("Student filter...\n");
         var req = (HttpServletRequest) request;
         var res = (HttpServletResponse) response;
         var s = req.getSession();
+        var contextPath = req.getContextPath();
+        var servletPath = req.getServletPath();
         var user = (User) s.getAttribute("user");
+        System.out.println("Student filter...\t" + servletPath);
         if (user.getRole() != UserRole.STUDENT) {
             res.sendRedirect(req.getContextPath());
             return;

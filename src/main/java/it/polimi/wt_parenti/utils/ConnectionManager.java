@@ -11,7 +11,7 @@ import java.sql.SQLException;
  */
 public class ConnectionManager {
     private ConnectionManager() {
-        // Nascondo il costruttore pubblico di default.
+        // default constructor hiding mechanism
     }
 
     /**
@@ -22,31 +22,31 @@ public class ConnectionManager {
      */
     public static Connection openConnection(ServletContext context) throws UnavailableException {
         if (context == null)
-            throw new UnavailableException("Impossibile connettersi al database: ricevuto un contesto nullo!");
+            throw new UnavailableException("Unable to connect to the database: context was null!");
 
         final var driver = context.getInitParameter("DB_DRIVER");
         if (driver == null)
-            throw new UnavailableException("Impossibile connettersi al database: driver non fornito!");
+            throw new UnavailableException("Unable to connect to the database: driver was null!");
 
         final var url = context.getInitParameter("DB_URL");
         if (url == null)
-            throw new UnavailableException("Impossibile connettersi al database: url non fornito!");
+            throw new UnavailableException("Unable to connect to the database: url was null!");
 
         final var user = context.getInitParameter("DB_USER");
         if (user == null)
-            throw new UnavailableException("Impossibile connettersi al database: utenza non fornita!");
+            throw new UnavailableException("Unable to connect to the database: user was null!");
 
         final var password = context.getInitParameter("DB_PASSWORD");
         if (password == null)
-            throw new UnavailableException("Impossibile connettersi al database: password non fornita!");
+            throw new UnavailableException("Unable to connect to the database: password vas null!");
 
         try {
             Class.forName(driver);
             return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
-            throw new UnavailableException("Impossibile connettersi al database: credenziali non valide!");
+            throw new UnavailableException("Unable to connect to the database: credentials were invalid!");
         } catch (ClassNotFoundException e) {
-            throw new UnavailableException("Impossibile connettersi al database: driver non trovato!");
+            throw new UnavailableException("Unable to connect to the database: driver not found!");
         }
     }
 

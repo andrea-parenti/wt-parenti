@@ -9,6 +9,6 @@ public class ServerLogger {
     public static final Logger LOGGER = Logger.getLogger("Server");
 
     private ServerLogger() {
-        // default constructor hiding
+        // default constructor hiding mechanism
     }
 }
