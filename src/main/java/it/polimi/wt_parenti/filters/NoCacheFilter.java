@@ -2,18 +2,22 @@ package it.polimi.wt_parenti.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "NoCacheFilter")
+@WebFilter(filterName = "NoCacheFilter", urlPatterns = {"/HomeStudent", "/HomeProfessor"})
 public class NoCacheFilter implements Filter {
-    public void init(FilterConfig config) throws ServletException {
-    }
-
-    public void destroy() {
-    }
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+        var req = (HttpServletRequest) request;
+        var res = (HttpServletResponse) response;
+        var contextPath = req.getContextPath();
+        var servletPath = req.getServletPath();
+        System.out.println("No cache filter...\t" + servletPath);
+        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+        res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+        res.setHeader("Expires", "0"); // Proxies.
         chain.doFilter(request, response);
     }
 }

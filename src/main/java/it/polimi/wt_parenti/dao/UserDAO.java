@@ -1,5 +1,7 @@
 package it.polimi.wt_parenti.dao;
 
+import it.polimi.wt_parenti.beans.Professor;
+import it.polimi.wt_parenti.beans.Student;
 import it.polimi.wt_parenti.beans.User;
 import it.polimi.wt_parenti.utils.enumerations.UserRole;
 
@@ -54,6 +56,56 @@ public class UserDAO {
             statement.setString(3, user.getRole().toString());
             try (var result = statement.executeQuery()) {
                 return result.isBeforeFirst();
+            }
+        }
+    }
+
+    public Optional<Student> associateStudent(User user) throws SQLException {
+        if (user == null || user.getRole() != UserRole.STUDENT) return Optional.empty();
+        var query = """
+                SELECT
+                    student_id, name, surname, email, bachelor_course
+                FROM
+                    students
+                WHERE
+                    student_id = ?
+                """;
+        try (var statement = connection.prepareStatement(query)) {
+            statement.setInt(1, user.getId());
+            try (var result = statement.executeQuery()) {
+                if (!result.isBeforeFirst()) return Optional.empty();
+                result.next();
+                var s = new Student();
+                s.setId(result.getInt("student_id"));
+                s.setName(result.getString("name"));
+                s.setSurname(result.getString("surname"));
+                s.setEmail(result.getString("email"));
+                s.setBachelorCourse(result.getString("bachelor_course"));
+                return Optional.of(s);
+            }
+        }
+    }
+
+    public Optional<Professor> associateProfessor(User user) throws SQLException {
+        if (user == null || user.getRole() != UserRole.PROFESSOR) return Optional.empty();
+        var query = """
+                SELECT
+                    professor_id, name, surname
+                FROM
+                    professors
+                WHERE
+                    professor_id = ?
+                """;
+        try (var statement = connection.prepareStatement(query)) {
+            statement.setInt(1, user.getId());
+            try (var result = statement.executeQuery()) {
+                if (!result.isBeforeFirst()) return Optional.empty();
+                result.next();
+                var p = new Professor();
+                p.setId(result.getInt("professor_id"));
+                p.setName(result.getString("name"));
+                p.setSurname(result.getString("surname"));
+                return Optional.of(p);
             }
         }
     }

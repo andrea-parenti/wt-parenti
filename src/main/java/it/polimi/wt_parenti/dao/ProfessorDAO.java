@@ -32,27 +32,4 @@ public class ProfessorDAO {
             }
         }
     }
-
-    public Optional<Professor> associateProfessor(User user) throws SQLException {
-        if (user == null || user.getRole() != UserRole.PROFESSOR) return Optional.empty();
-        var query = """
-                SELECT
-                    professor_id, name, surname
-                FROM
-                    professors
-                WHERE
-                    professor_id = ?
-                """;
-        try (var statement = connection.prepareStatement(query)) {
-            statement.setInt(1, user.getId());
-            try (var result = statement.executeQuery()) {
-                if (!result.isBeforeFirst()) return Optional.empty();
-                var p = new Professor();
-                p.setId(result.getInt("professor_id"));
-                p.setName(result.getString("name"));
-                p.setSurname(result.getString("surname"));
-                return Optional.of(p);
-            }
-        }
-    }
 }

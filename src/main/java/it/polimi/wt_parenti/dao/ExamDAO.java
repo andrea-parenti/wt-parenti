@@ -38,6 +38,7 @@ public class ExamDAO {
             statement.setInt(1, examID);
             try (var result = statement.executeQuery()) {
                 if (!result.isBeforeFirst()) return Optional.empty();
+                result.next();
                 var er = new ExamReport();
                 er.setId(result.getInt("ER.exam_report_id"));
                 er.setCreation(result.getTimestamp("ER.created_at").toLocalDateTime());
@@ -85,11 +86,11 @@ public class ExamDAO {
                     ER.exam_report_id, ER.created_at
                 FROM
                     exams AS E
-                    NATURAL JOIN exam_sessions AS ES
-                    NATURAL JOIN courses AS C
-                    NATURAL JOIN professors AS P
-                    NATURAL JOIN students AS S
-                    NATURAL JOIN exam_reports AS ER
+                    JOIN exam_sessions AS ES ON E.exam_session_id = ES.exam_session_id
+                    JOIN courses AS C ON ES.course_id = C.course_id
+                    JOIN professors AS P ON C.professor_id = P.professor_id
+                    JOIN students AS S ON E.student_id = S.student_id
+                    JOIN exam_reports AS ER ON E.exam_report_id = ER.exam_report_id
                 WHERE
                     ES.exam_session_id = ? AND S.student_id = ?
                 """;
@@ -98,6 +99,7 @@ public class ExamDAO {
             statement.setInt(2, studentID);
             try (var result = statement.executeQuery()) {
                 if (!result.isBeforeFirst()) return Optional.empty();
+                result.next();
                 var er = new ExamReport();
                 er.setId(result.getInt("ER.exam_report_id"));
                 er.setCreation(result.getTimestamp("ER.created_at").toLocalDateTime());

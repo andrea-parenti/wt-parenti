@@ -96,12 +96,42 @@ public class LoginServlet extends HttpServlet {
         }
 
         var u = user.get();
-        request.getSession().setAttribute("user", u);
         var path = getServletContext().getContextPath();
-        path += switch (u.getRole()) {
-            case STUDENT -> "/HomeStudent";
-            case PROFESSOR -> "/HomeProfessor";
-        };
+        switch (u.getRole()) {
+            case STUDENT:
+                try {
+                    var s = userDao.associateStudent(u);
+                    if (s.isEmpty()) {
+                        final var context = new WebContext(request, response, getServletContext(), request.getLocale());
+                        context.setVariable("errorMsg", "No student found: database consistency error!");
+                        templateEngine.process("login", context, response.getWriter());
+                        return;
+                    }
+                    request.getSession().setAttribute("student", s.get());
+                    path += "/HomeStudent";
+                } catch (SQLException e) {
+                    // error handling servlet?
+                    return;
+                }
+                break;
+            case PROFESSOR:
+                try {
+                    var p = userDao.associateProfessor(u);
+                    if (p.isEmpty()) {
+                        final var context = new WebContext(request, response, getServletContext(), request.getLocale());
+                        context.setVariable("errorMsg", "No professor found: database consistency error!");
+                        templateEngine.process("login", context, response.getWriter());
+                        return;
+                    }
+                    request.getSession().setAttribute("professor", p.get());
+                    path += "/HomeProfessor";
+                } catch (SQLException e) {
+                    // error handling servlet?
+                    return;
+                }
+                break;
+        }
+        request.getSession().setAttribute("user", u);
         response.sendRedirect(path);
     }
 

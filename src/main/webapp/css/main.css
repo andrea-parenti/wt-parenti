@@ -8,3 +8,26 @@
     background-color: firebrick;
     color: white;
 }
+
+.container {
+    border: 1px solid mediumspringgreen;
+}
+
+#personal-data-container {
+    position: relative;
+    float: left;
+}
+
+#courses-container {
+    position: relative;
+    float: left;
+}
+
+#exam-sessions-container {
+    position: relative;
+    float: left;
+}
+
+#courses-table td {
+    border: 1px groove black;
+}
