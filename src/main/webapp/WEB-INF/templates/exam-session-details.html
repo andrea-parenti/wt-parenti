@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="it" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registered students</title>
+    <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div th:if="${session.professor}" class="container" id="main-container">
+    <h3>
+        Exam result
+    </h3>
+    <div id="logout">
+        <a class="button" th:href="@{/Logout}">Logout</a>
+    </div>
+</div>
+</body>
+</html>

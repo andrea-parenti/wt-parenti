@@ -39,9 +39,12 @@ public class StudentDAO {
     public List<Course> getAttendedCourses(int studentID) throws SQLException {
         var query = """
                 SELECT
-                    C.course_id, C.code, C.name, P.professor_id, P.name, P.surname
+                    C.course_id, C.code, C.name,
+                    P.professor_id, P.name, P.surname
                 FROM
-                    courses AS C JOIN attendances AS A ON C.course_id = A.course_id JOIN professors AS P ON C.professor_id = P.professor_id
+                    courses AS C
+                    JOIN attendances AS A ON C.course_id = A.course_id
+                    JOIN professors AS P ON C.professor_id = P.professor_id
                 WHERE
                     A.student_id = ?
                 ORDER BY

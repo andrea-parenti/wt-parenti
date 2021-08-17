@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "LoginFilter", urlPatterns = {"/", "/HomeStudent", "/HomeProfessor"})
+//@WebFilter(filterName = "LoginFilter", urlPatterns = {"/", "/Login", "/HomeStudent", "/HomeProfessor", "/ExamResult"})
+@WebFilter(filterName = "LoginFilter")
 public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -24,7 +25,7 @@ public class LoginFilter implements Filter {
             res.sendRedirect(contextPath + "/Login");
             return;
         }
-        if (servletPath.equals("/")) {
+        if (servletPath.equals("/") || servletPath.equals("/Login")) {
             final var path = contextPath + switch (user.getRole()) {
                 case STUDENT -> "/HomeStudent";
                 case PROFESSOR -> "/HomeProfessor";

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div th:if="${session.student}" class="container" id="main-container">
+    <h3>
+        Exam result
+    </h3>
+    <div id="logout">
+        <a class="button" th:href="@{/Logout}">Logout</a>
+    </div>
+    <div th:if="${exam}" class="container" id="student-data-container">
+        <p>
+            Student: <span th:text="${exam.student.surname}"></span> <span
+                th:text="${exam.student.name}"></span>
+        </p>
+        <p>
+            Email: <span th:text="${exam.student.email}"></span>
+        </p>
+        <p>
+            Bachelor course: <span th:text="${exam.student.bachelorCourse}"></span>
+        </p>
+    </div>
+    <div th:switch="${exam.status.value}" class="container" id="exam-data-container">
+        <div th:case="'NOT_INSERTED_YET'">
+            <p>
+                The grade hasn't been inserted yet.
+            </p>
+        </div>
+        <div th:case="*">
+            <div th:switch="${exam.result.value}">
+                <p th:case="'PASSED'">
+                    Grade: <span th:text="${exam.grade}"></span><span th:if="${exam.laude}"> cum laude</span>
+                </p>
+                <p th:case="'SENT_BACK'">
+                    You're not admitted to the next session of this course.
+                </p>
+                <p th:case="*">
+                    You can retry in the next session of this course.
+                </p>
+            </div>
+            <p>
+                Course: <span th:text="${exam.examSession.course.code}"></span> - <span
+                    th:text="${exam.examSession.course.name}"></span>
+            </p>
+            <p>
+                Professor: <span th:text="${exam.examSession.course.professor.surname}"></span> <span
+                    th:text="${exam.examSession.course.professor.name}"></span>
+            </p>
+            <p>
+                Taken on: <span th:text="${exam.examSession.date}"></span>
+            </p>
+            <p th:if="${exam.status.value == 'REPORTED'}">
+                Reported on: <span th:text="${exam.report.creation}"></span>
+            </p>
+            <div th:if="${exam.result.value == 'PASSED' && exam.status.value == 'PUBLISHED'}" id="refuse">
+                <a class="button" th:href="@{/Logout}">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

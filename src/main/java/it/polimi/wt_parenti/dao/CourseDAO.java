@@ -24,7 +24,9 @@ public class CourseDAO {
                     C.course_id, C.code, C.name,
                     P.professor_id, P.name, P.surname
                 FROM
-                    exam_sessions AS ES JOIN courses AS C ON ES.course_id = C.course_id JOIN professors AS P ON C.professor_id = P.professor_id
+                    exam_sessions AS ES
+                    JOIN courses AS C ON ES.course_id = C.course_id
+                    JOIN professors AS P ON C.professor_id = P.professor_id
                 WHERE
                     C.course_id = ?
                 ORDER BY
@@ -60,7 +62,8 @@ public class CourseDAO {
                 SELECT
                     S.student_id, S.name, S.surname, S.email, S.bachelor_course
                 FROM
-                    students AS S JOIN attendances AS A ON S.student_id = A.student_id
+                    students AS S
+                    JOIN attendances AS A ON S.student_id = A.student_id
                 WHERE
                     A.course_id = ?
                 """;

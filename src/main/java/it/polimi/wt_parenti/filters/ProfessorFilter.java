@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "ProfessorFilter", urlPatterns = {"/HomeProfessor"})
+//@WebFilter(filterName = "ProfessorFilter", urlPatterns = {"/HomeProfessor"})
+@WebFilter(filterName = "ProfessorFilter")
 public class ProfessorFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {

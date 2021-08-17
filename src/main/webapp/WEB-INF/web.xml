@@ -31,19 +31,26 @@
         <filter-name>NoCacheFilter</filter-name>
         <url-pattern>/HomeStudent</url-pattern>
         <url-pattern>/HomeProfessor</url-pattern>
+        <url-pattern>/ExamResult</url-pattern>
+        <url-pattern>/RegisteredStudents</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/</url-pattern>
+        <url-pattern>/Login</url-pattern>
         <url-pattern>/HomeStudent</url-pattern>
         <url-pattern>/HomeProfessor</url-pattern>
+        <url-pattern>/ExamResult</url-pattern>
+        <url-pattern>/RegisteredStudents</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>StudentFilter</filter-name>
         <url-pattern>/HomeStudent</url-pattern>
+        <url-pattern>/ExamResult</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>ProfessorFilter</filter-name>
         <url-pattern>/HomeProfessor</url-pattern>
+        <url-pattern>/RegisteredStudents</url-pattern>
     </filter-mapping>
 </web-app>

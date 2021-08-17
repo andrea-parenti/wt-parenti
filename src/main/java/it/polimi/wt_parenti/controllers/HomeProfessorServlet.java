@@ -1,9 +1,10 @@
 package it.polimi.wt_parenti.controllers;
 
-import it.polimi.wt_parenti.beans.Student;
+import it.polimi.wt_parenti.beans.Professor;
 import it.polimi.wt_parenti.dao.CourseDAO;
-import it.polimi.wt_parenti.dao.StudentDAO;
+import it.polimi.wt_parenti.dao.ProfessorDAO;
 import it.polimi.wt_parenti.utils.ConnectionManager;
+import it.polimi.wt_parenti.utils.exceptions.MethodNotAllowedException;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -19,14 +20,14 @@ import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet(name = "GoToHomeStudent", value = "/HomeStudent")
-public class HomeStudentServlet extends HttpServlet {
+@WebServlet(name = "HomeProfessorServlet", value = "/HomeProfessor")
+public class HomeProfessorServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
     private Connection connection;
     private TemplateEngine templateEngine;
 
-    public HomeStudentServlet() {
+    public HomeProfessorServlet() {
         super();
     }
 
@@ -45,18 +46,18 @@ public class HomeStudentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         final var context = new WebContext(request, response, getServletContext(), request.getLocale());
-        var s = (Student) request.getSession().getAttribute("student");
-        var sDao = new StudentDAO(connection);
+        var p = (Professor) request.getSession().getAttribute("professor");
+        var pDao = new ProfessorDAO(connection);
         var cDao = new CourseDAO(connection);
         try {
-            var courses = sDao.getAttendedCourses(s.getId());
+            var courses = pDao.getTaughtCourses(p.getId());
             if (!courses.isEmpty()) {
                 var parameter = request.getParameter("selectedCourse");
                 var selectedCourse = courses.get(0);
                 if (parameter != null) {
                     try {
                         var selectedCourseID = Integer.parseInt(parameter);
-                        var checkedCourse = sDao.checkCourse(s.getId(), selectedCourseID);
+                        var checkedCourse = pDao.checkCourse(p.getId(), selectedCourseID);
                         if (checkedCourse.isPresent()) selectedCourse = checkedCourse.get();
                     } catch (NumberFormatException e) {
                         // do nothing
@@ -67,7 +68,7 @@ public class HomeStudentServlet extends HttpServlet {
                 context.setVariable("selection", selectedCourse);
                 context.setVariable("dates", dates);
             }
-            templateEngine.process("home-student", context, response.getWriter());
+            templateEngine.process("home-professor", context, response.getWriter());
         } catch (SQLException e) {
             e.printStackTrace();
         }
