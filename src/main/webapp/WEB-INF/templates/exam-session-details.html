@@ -13,6 +13,39 @@
     <div id="logout">
         <a class="button" th:href="@{/Logout}">Logout</a>
     </div>
+    <div th:unless="${#lists.isEmpty(exams)}" class="container" id="exams-container">
+        <table id="exams-table">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Surname, Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Bachelor course</th>
+                <th scope="col">Grade</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${exams}">
+                <td th:text="${e.student.id}"></td>
+                <td th:text="${e.student.surname} + ', ' + ${e.student.name}"></td>
+                <td th:text="${e.student.email}"></td>
+                <td th:text="${e.student.bachelorCourse}"></td>
+                <td th:switch="${e.result}">
+                    <span th:case="'PASSED'">
+                        <span th:text="${exam.grade}"></span> <span th:if="${exam.laude}"> cum laude</span>
+                    </span>
+                    <span th:case="*" th:text="${e.result}"></span>
+                </td>
+                <td th:text="${e.status}"></td>
+                <td>
+                    <a class="button" th:if="${e.status == 'NOT_INSERTED_YET' || e.status == 'INSERTED'}"
+                       th:href="@{/UpdateGrade(examId=${e.id})}">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

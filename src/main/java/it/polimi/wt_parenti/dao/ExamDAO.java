@@ -4,6 +4,7 @@ import it.polimi.wt_parenti.beans.*;
 import it.polimi.wt_parenti.utils.enumerations.ExamResult;
 import it.polimi.wt_parenti.utils.enumerations.ExamStatus;
 import it.polimi.wt_parenti.utils.enumerations.OrderType;
+import it.polimi.wt_parenti.utils.enumerations.SortableField;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -171,7 +172,7 @@ public class ExamDAO {
         }
     }
 
-    public List<Exam> getSessionDetails(int examSessionID, String sortingField, OrderType orderType) throws SQLException {
+    public List<Exam> getSessionDetails(int examSessionID, SortableField sortingField, OrderType orderType) throws SQLException {
         var query = """
                 SELECT
                     E.exam_id, E.status, E.result, E.grade, E.laude, E.exam_report_id,
@@ -189,16 +190,15 @@ public class ExamDAO {
                     ES.exam_session_id = ?
                 """;
         var sorter = switch (sortingField) {
-            case "NAME" -> " ORDER BY S.name " + orderType;
-            case "SURNAME" -> " ORDER BY S.surname " + orderType;
-            case "EMAIL" -> " ORDER BY S.email " + orderType;
-            case "BACHELORCOURSE" -> " ORDER BY S.bachelorCourse " + orderType;
-            case "GRADE" -> " ORDER BY E.result" + orderType + ", E.grade " + orderType + ", E.laude " + orderType;
-            case "STATUS" -> " ORDER BY E.status " + orderType;
-            default -> "";
+            case NAME -> " ORDER BY S.name " + orderType.name();
+            case SURNAME -> " ORDER BY S.surname " + orderType.name();
+            case EMAIL -> " ORDER BY S.email " + orderType.name();
+            case BACHELOR_COURSE -> " ORDER BY S.bachelorCourse " + orderType.name();
+            case GRADE -> " ORDER BY E.result" + orderType.name() + ", E.grade " + orderType.name() + ", E.laude " + orderType.name();
+            case STATUS -> " ORDER BY E.status " + orderType.name();
         };
         var exams = new ArrayList<Exam>();
-        try (var statement = connection.prepareStatement(query+sorter)) {
+        try (var statement = connection.prepareStatement(query + sorter)) {
             statement.setInt(1, examSessionID);
             try (var result = statement.executeQuery()) {
                 while (result.next()) {

@@ -1,13 +1,7 @@
 package it.polimi.wt_parenti.utils.enumerations;
 
 public enum ExamResult {
-    MISSING("MISSING"), REJECTED("REJECTED"), SENT_BACK("SENT_BACK"), PASSED("PASSED");
-
-    private final String value;
-
-    ExamResult(String value) {
-        this.value = value;
-    }
+    MISSING, REJECTED, SENT_BACK, PASSED;
 
     public static ExamResult fromString(final String result) {
         if (result == null) return null;
@@ -15,6 +9,6 @@ public enum ExamResult {
     }
 
     public String getValue() {
-        return value;
+        return name();
     }
 }

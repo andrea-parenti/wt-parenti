@@ -6,6 +6,8 @@
 
     <display-name xml:lang="en">WT-Exam-Management-Parenti</display-name>
 
+    <!--PARAMETERS-->
+
     <context-param>
         <param-name>DB_DRIVER</param-name>
         <param-value>com.mysql.cj.jdbc.Driver</param-value>
@@ -23,9 +25,38 @@
         <param-value>Gh8GSSzLKg3@T94#</param-value>
     </context-param>
 
-    <welcome-file-list>
-        <welcome-file>/</welcome-file>
-    </welcome-file-list>
+    <!--SERVLETS MAPPING-->
+
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeStudentServlet</servlet-name>
+        <url-pattern>/HomeStudent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExamResultServlet</servlet-name>
+        <url-pattern>/ExamResult</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeProfessorServlet</servlet-name>
+        <url-pattern>/HomeProfessor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExamSessionServlet</servlet-name>
+        <url-pattern>/RegisteredStudents</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ErrorHandlerServlet</servlet-name>
+        <url-pattern>/Error</url-pattern>
+    </servlet-mapping>
+
+    <!--FILTERS MAPPING-->
 
     <filter-mapping>
         <filter-name>NoCacheFilter</filter-name>
@@ -53,4 +84,16 @@
         <url-pattern>/HomeProfessor</url-pattern>
         <url-pattern>/RegisteredStudents</url-pattern>
     </filter-mapping>
+
+    <!--OTHER MAPPING-->
+
+    <welcome-file-list>
+        <welcome-file>/</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/Error</location>
+    </error-page>
+
 </web-app>

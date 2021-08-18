@@ -17,4 +17,8 @@ public enum SortableField {
             default -> null;
         };
     }
+
+    public String getValue() {
+        return name();
+    }
 }

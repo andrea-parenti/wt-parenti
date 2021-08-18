@@ -25,4 +25,8 @@ public enum UserRole {
     public static UserRole fromString(final String role) throws IllegalArgumentException {
         return valueOf(role.toUpperCase());
     }
+
+    public String getValue() {
+        return name();
+    }
 }

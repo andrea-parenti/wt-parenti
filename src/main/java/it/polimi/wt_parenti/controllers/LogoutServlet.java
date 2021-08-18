@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.Serial;
 
-@WebServlet(name = "LogoutServlet", value = "/Logout")
+@WebServlet(name = "LogoutServlet")
 public class LogoutServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -20,9 +20,5 @@ public class LogoutServlet extends HttpServlet {
             s.invalidate();
         }
         response.sendRedirect(getServletContext().getContextPath());
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     }
 }

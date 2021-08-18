@@ -1,5 +1,6 @@
 package it.polimi.wt_parenti.controllers;
 
+import it.polimi.wt_parenti.beans.Exam;
 import it.polimi.wt_parenti.beans.Professor;
 import it.polimi.wt_parenti.dao.ExamDAO;
 import it.polimi.wt_parenti.dao.ProfessorDAO;
@@ -11,15 +12,18 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
-@WebServlet(name = "ExamSessionServlet", value = "/RegisteredStudents")
+@WebServlet(name = "ExamSessionServlet")
 public class ExamSessionServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -52,18 +56,48 @@ public class ExamSessionServlet extends HttpServlet {
         var p = (Professor) request.getSession().getAttribute("professor");
         var pDao = new ProfessorDAO(connection);
         var eDao = new ExamDAO(connection);
+        List<Exam> exams;
         try {
-            var parameter = request.getParameter("examSessionId");
-            if (parameter != null) {
-                try {
-                    throw new SQLException(); // just to avoid an error temporarily
-                } catch (NumberFormatException e) {
-                    // do nothing
-                }
+            var examSessionParam = request.getParameter("examSessionId");
+            int examSessionID;
+            if (examSessionParam == null) {
+                response.sendRedirect(request.getContextPath());
+                return;
             }
+            try {
+                examSessionID = Integer.parseInt(examSessionParam);
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath());
+                return;
+            }
+            if (pDao.checkExamSession(p.getId(), examSessionID).isEmpty()) {
+                response.sendRedirect(request.getContextPath());
+                return;
+            }
+            var sortingFieldParam = request.getParameter("orderBy");
+            if (sortingFieldParam != null) {
+                var tempField = SortableField.fromString(sortingFieldParam);
+                if (tempField != null) {
+                    if (tempField == sortingField) orderType = OrderType.invert(orderType);
+                    else {
+                        sortingField = tempField;
+                        orderType = OrderType.ASC;
+                    }
+                } else {
+                    sortingField = SortableField.SURNAME;
+                    orderType = OrderType.ASC;
+                }
+            } else {
+                sortingField = SortableField.SURNAME;
+                orderType = OrderType.ASC;
+            }
+            exams = eDao.getSessionDetails(examSessionID, sortingField, orderType);
+            context.setVariable("exams", exams);
+            templateEngine.process("home-professor", context, response.getWriter());
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override

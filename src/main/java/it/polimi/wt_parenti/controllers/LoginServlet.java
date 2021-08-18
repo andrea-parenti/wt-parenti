@@ -21,7 +21,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
-@WebServlet(name = "CheckLogin", value = "/Login")
+@WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;

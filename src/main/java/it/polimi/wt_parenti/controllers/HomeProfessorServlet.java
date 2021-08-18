@@ -20,7 +20,7 @@ import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet(name = "HomeProfessorServlet", value = "/HomeProfessor")
+@WebServlet(name = "HomeProfessorServlet")
 public class HomeProfessorServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -72,10 +72,6 @@ public class HomeProfessorServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     }
 
     @Override

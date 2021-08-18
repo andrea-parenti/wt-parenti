@@ -16,7 +16,7 @@ import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet(name = "ExamResultServlet", value = "/ExamResult")
+@WebServlet(name = "ExamResultServlet")
 public class ExamResultServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -55,10 +55,6 @@ public class ExamResultServlet extends HttpServlet {
             }
         }
         templateEngine.process("exam-details", context, response.getWriter());
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     }
 
     @Override

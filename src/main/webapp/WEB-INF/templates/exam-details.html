@@ -58,7 +58,7 @@
                 Reported on: <span th:text="${exam.report.creation}"></span>
             </p>
             <div th:if="${exam.result.value == 'PASSED' && exam.status.value == 'PUBLISHED'}" id="refuse">
-                <a class="button" th:href="@{/Logout}">Logout</a>
+                <a class="button" th:href="@{/Refuse(examId=${exam.id})}">Refuse</a>
             </div>
         </div>
     </div>
