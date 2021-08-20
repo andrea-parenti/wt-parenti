@@ -25,70 +25,134 @@
         <param-value>Gh8GSSzLKg3@T94#</param-value>
     </context-param>
 
-    <!--SERVLETS MAPPING-->
+    <!--SERVLETS-->
 
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.LoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HomeStudentServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.HomeStudentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeStudentServlet</servlet-name>
         <url-pattern>/HomeStudent</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ExamResultServlet</servlet-name>
-        <url-pattern>/ExamResult</url-pattern>
-    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HomeProfessorServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.HomeProfessorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeProfessorServlet</servlet-name>
         <url-pattern>/HomeProfessor</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ExamResultServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.ExamResultServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ExamResultServlet</servlet-name>
+        <url-pattern>/ExamResult</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ExamSessionServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.ExamSessionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ExamSessionServlet</servlet-name>
         <url-pattern>/RegisteredStudents</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateGradeServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.UpdateGradeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateGradeServlet</servlet-name>
+        <url-pattern>/UpdateGrade</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ErrorHandlerServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.ErrorHandlerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ErrorHandlerServlet</servlet-name>
         <url-pattern>/Error</url-pattern>
     </servlet-mapping>
 
-    <!--FILTERS MAPPING-->
+    <!--FILTERS-->
 
+    <filter>
+        <filter-name>NoCacheFilter</filter-name>
+        <filter-class>it.polimi.wt.parenti.filters.NoCacheFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>NoCacheFilter</filter-name>
+        <url-pattern>/Login</url-pattern>
+        <url-pattern>/Logout</url-pattern>
         <url-pattern>/HomeStudent</url-pattern>
         <url-pattern>/HomeProfessor</url-pattern>
         <url-pattern>/ExamResult</url-pattern>
         <url-pattern>/RegisteredStudents</url-pattern>
+        <url-pattern>/Error</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>it.polimi.wt.parenti.filters.LoginFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
-        <url-pattern>/</url-pattern>
-        <url-pattern>/Login</url-pattern>
         <url-pattern>/HomeStudent</url-pattern>
         <url-pattern>/HomeProfessor</url-pattern>
         <url-pattern>/ExamResult</url-pattern>
         <url-pattern>/RegisteredStudents</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>StudentFilter</filter-name>
+        <filter-class>it.polimi.wt.parenti.filters.StudentFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>StudentFilter</filter-name>
         <url-pattern>/HomeStudent</url-pattern>
         <url-pattern>/ExamResult</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>ProfessorFilter</filter-name>
+        <filter-class>it.polimi.wt.parenti.filters.ProfessorFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>ProfessorFilter</filter-name>
         <url-pattern>/HomeProfessor</url-pattern>
         <url-pattern>/RegisteredStudents</url-pattern>
+        <url-pattern>/UpdateGrade</url-pattern>
     </filter-mapping>
 
-    <!--OTHER MAPPING-->
+    <!--OTHER CONFIGURATIONS-->
 
     <welcome-file-list>
-        <welcome-file>/</welcome-file>
+        <welcome-file>Login</welcome-file>
     </welcome-file-list>
 
     <error-page>

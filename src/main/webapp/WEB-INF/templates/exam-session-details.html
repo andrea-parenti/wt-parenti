@@ -8,7 +8,7 @@
 <body>
 <div th:if="${session.professor}" class="container" id="main-container">
     <h3>
-        Exam result
+        Exam overview
     </h3>
     <div id="logout">
         <a class="button" th:href="@{/Logout}">Logout</a>
@@ -17,30 +17,60 @@
         <table id="exams-table">
             <thead>
             <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Surname, Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Bachelor course</th>
-                <th scope="col">Grade</th>
-                <th scope="col">Status</th>
+                <th scope="col">
+                    <a th:href="@{/RegisteredStudents(examSessionId=${examSessionId}, orderBy='matriculation')}">
+                        Matriculation</a>
+                </th>
+                <th scope="col">
+                    <a th:href="@{/RegisteredStudents(examSessionId=${examSessionId}, orderBy='name')}">
+                        Surname, Name</a>
+                </th>
+                <th scope="col">
+                    <a th:href="@{/RegisteredStudents(examSessionId=${examSessionId}, orderBy='email')}">
+                        Email</a>
+                </th>
+                <th scope="col">
+                    <a th:href="@{/RegisteredStudents(examSessionId=${examSessionId}, orderBy='course')}">
+                        Bachelor course</a>
+                </th>
+                <th scope="col">
+                    <a th:href="@{/RegisteredStudents(examSessionId=${examSessionId}, orderBy='grade')}">
+                        Grade</a>
+                </th>
+                <th scope="col">
+                    <a th:href="@{/RegisteredStudents(examSessionId=${examSessionId}, orderBy='status')}">
+                        Status</a>
+                </th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="e : ${exams}">
-                <td th:text="${e.student.id}"></td>
+                <td th:text="${e.student.matriculation}"></td>
                 <td th:text="${e.student.surname} + ', ' + ${e.student.name}"></td>
                 <td th:text="${e.student.email}"></td>
                 <td th:text="${e.student.bachelorCourse}"></td>
-                <td th:switch="${e.result}">
-                    <span th:case="'PASSED'">
-                        <span th:text="${exam.grade}"></span> <span th:if="${exam.laude}"> cum laude</span>
-                    </span>
-                    <span th:case="*" th:text="${e.result}"></span>
-                </td>
-                <td th:text="${e.status}"></td>
                 <td>
-                    <a class="button" th:if="${e.status == 'NOT_INSERTED_YET' || e.status == 'INSERTED'}"
-                       th:href="@{/UpdateGrade(examId=${e.id})}">Edit</a>
+                    <th:block th:if="${e.result}">
+                        <th:block th:switch="${e.result.name()}">
+                            <th:block th:case="'PASSED'">
+                                <span th:text="${e.grade}"></span> <span th:if="${e.laude}"> cum laude</span>
+                            </th:block>
+                            <th:block th:case="*">
+                                <span th:text="${e.result.displayName()}"></span>
+                            </th:block>
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${e.result}">
+                        not defined yet
+                    </th:block>
+                </td>
+                <td th:text="${e.status.displayName()}"></td>
+                <td>
+                    <th:block th:if="${e.status}">
+                        <a class="button"
+                           th:if="${e.status.name() == 'NOT_INSERTED_YET' || e.status.name() == 'INSERTED'}"
+                           th:href="@{/UpdateGrade(examId=${e.id})}">Edit</a>
+                    </th:block>
                 </td>
             </tr>
             </tbody>

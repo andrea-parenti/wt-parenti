@@ -6,14 +6,14 @@
     <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div th:if="${session.student}" class="container" id="main-container">
+<div th:if="${session.student && exam}" class="container" id="main-container">
     <h3>
         Exam result
     </h3>
     <div id="logout">
         <a class="button" th:href="@{/Logout}">Logout</a>
     </div>
-    <div th:if="${exam}" class="container" id="student-data-container">
+    <div class="container" id="student-data-container">
         <p>
             Student: <span th:text="${exam.student.surname}"></span> <span
                 th:text="${exam.student.name}"></span>
@@ -25,14 +25,14 @@
             Bachelor course: <span th:text="${exam.student.bachelorCourse}"></span>
         </p>
     </div>
-    <div th:switch="${exam.status.value}" class="container" id="exam-data-container">
+    <div th:switch="${exam.status.name()}" class="container" id="exam-data-container">
         <div th:case="'NOT_INSERTED_YET'">
             <p>
                 The grade hasn't been inserted yet.
             </p>
         </div>
         <div th:case="*">
-            <div th:switch="${exam.result.value}">
+            <div th:switch="${exam.result.name()}">
                 <p th:case="'PASSED'">
                     Grade: <span th:text="${exam.grade}"></span><span th:if="${exam.laude}"> cum laude</span>
                 </p>
@@ -54,10 +54,10 @@
             <p>
                 Taken on: <span th:text="${exam.examSession.date}"></span>
             </p>
-            <p th:if="${exam.status.value == 'REPORTED'}">
+            <p th:if="${exam.status.name() == 'REPORTED'}">
                 Reported on: <span th:text="${exam.report.creation}"></span>
             </p>
-            <div th:if="${exam.result.value == 'PASSED' && exam.status.value == 'PUBLISHED'}" id="refuse">
+            <div th:if="${exam.result.name() == 'PASSED' && exam.status.name() == 'PUBLISHED'}" id="refuse">
                 <a class="button" th:href="@{/Refuse(examId=${exam.id})}">Refuse</a>
             </div>
         </div>

@@ -8,15 +8,15 @@
 <h1>Welcome to Exam Management Application</h1>
 <form action="#" method="POST" th:action="@{/Login}">
     <label>
-        username: <input name="username" type="text">
+        Username: <input name="username" type="text">
     </label>
     <br>
     <label>
-        password: <input name="password" type="password">
+        Password: <input name="password" type="password">
     </label>
     <br>
     <input type="submit" value="login">
-    <p th:if="${errorMsg != null}" th:text="${errorMsg}"></p>
+    <p th:if="${errorMsg}" th:text="${errorMsg}"></p>
 </form>
 </body>
 </html>

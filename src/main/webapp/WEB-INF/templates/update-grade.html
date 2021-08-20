@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update grade</title>
+    <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div th:if="${session.professor && exam}" class="container" id="main-container">
+    <h3>
+        Exam details
+    </h3>
+    <div id="logout">
+        <a class="button" th:href="@{/Logout}">Logout</a>
+    </div>
+    <div class="container" id="student-data-container">
+        <p>
+            Student: <span th:text="${exam.student.surname}"></span> <span
+                th:text="${exam.student.name}"></span>
+        </p>
+        <p>
+            Email: <span th:text="${exam.student.email}"></span>
+        </p>
+        <p>
+            Bachelor course: <span th:text="${exam.student.bachelorCourse}"></span>
+        </p>
+    </div>
+    <div class="container" id="exam-data-container">
+        <form action="#" method="POST" th:action="@{/Login}">
+            <label>
+                Username: <input name="username" type="text">
+            </label>
+            <br>
+            <label>
+                Password: <input name="password" type="password">
+            </label>
+            <br>
+            <input name="examId" type="hidden" value="${exam.id}">
+            <input type="submit" name="update" value="update">
+            <p th:if="${errorMsg}" th:text="${errorMsg}"></p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

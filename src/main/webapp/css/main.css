@@ -31,3 +31,11 @@
 #courses-table td {
     border: 1px groove black;
 }
+
+tbody tr:nth-child(even) {
+    background: #02fd95
+}
+
+tbody tr:nth-child(odd) {
+    background: #fdca84
+}

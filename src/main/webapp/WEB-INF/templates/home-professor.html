@@ -6,7 +6,7 @@
     <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div th:if="${session.student}" class="container" id="main-container">
+<div th:if="${session.professor}" class="container" id="main-container">
     <div id="logout">
         <a class="button" th:href="@{/Logout}">Logout</a>
     </div>
@@ -25,7 +25,6 @@
             <tr>
                 <th scope="col">Code</th>
                 <th scope="col">Name</th>
-                <th scope="col">Professor</th>
             </tr>
             </thead>
             <tbody>
