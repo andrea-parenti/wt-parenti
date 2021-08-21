@@ -21,12 +21,7 @@ import java.io.IOException;
 import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class UpdateGradeServlet extends HttpServlet {
     @Serial
@@ -113,12 +108,16 @@ public class UpdateGradeServlet extends HttpServlet {
         try {
             var checkedExam = pDao.checkExam(p.getId(), examID);
             if (checkedExam.isEmpty()) {
-                // log out
+                response.sendRedirect(request.getContextPath());
+                return;
             } else {
                 var exam = checkedExam.get();
                 examSessionId = exam.getExamSession().getId();
                 if (exam.getStatus() != ExamStatus.NOT_INSERTED_YET && exam.getStatus() != ExamStatus.INSERTED) {
-                    // cannot modify redirect to exam session
+                    String path = request.getContextPath();
+                    if (examSessionId != 0) path += "/RegisteredStudents?examSessionId=" + examSessionId;
+                    response.sendRedirect(path);
+                    return;
                 }
             }
         } catch (SQLException e) {
@@ -143,12 +142,18 @@ public class UpdateGradeServlet extends HttpServlet {
                 try {
                     grade = Integer.parseInt(gradeParam);
                     if (grade < 18 || grade > 30) {
-                        // show error in the current page
+                        final var context = new WebContext(request, response, getServletContext(), request.getLocale());
+                        context.setVariable("errorMsg", "Invalid grade!");
+                        templateEngine.process("exam-session-details", context, response.getWriter());
+                        return;
                     }
                     result = ExamResult.PASSED;
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
-                    // show error in the current page
+                    final var context = new WebContext(request, response, getServletContext(), request.getLocale());
+                    context.setVariable("errorMsg", "Invalid grade format!");
+                    templateEngine.process("exam-session-details", context, response.getWriter());
+                    return;
                 }
             }
         }
@@ -160,7 +165,6 @@ public class UpdateGradeServlet extends HttpServlet {
         }
         var path = request.getContextPath();
         if (examSessionId != 0) path += "/RegisteredStudents?examSessionId=" + examSessionId;
-        else path += "/HomeProfessor";
         response.sendRedirect(path);
     }
 
