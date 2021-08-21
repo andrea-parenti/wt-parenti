@@ -26,13 +26,13 @@
         </p>
     </div>
     <div th:switch="${exam.status.name()}" class="container" id="exam-data-container">
-        <div th:case="'NOT_INSERTED_YET'">
+        <th:block th:case="'NOT_INSERTED_YET'">
             <p>
                 The grade hasn't been inserted yet.
             </p>
-        </div>
-        <div th:case="*">
-            <div th:switch="${exam.result.name()}">
+        </th:block>
+        <th:block th:case="*">
+            <th:block th:switch="${exam.result.name()}">
                 <p th:case="'PASSED'">
                     Grade: <span th:text="${exam.grade}"></span><span th:if="${exam.laude}"> cum laude</span>
                 </p>
@@ -42,7 +42,7 @@
                 <p th:case="*">
                     You can retry in the next session of this course.
                 </p>
-            </div>
+            </th:block>
             <p>
                 Course: <span th:text="${exam.examSession.course.code}"></span> - <span
                     th:text="${exam.examSession.course.name}"></span>
@@ -60,7 +60,7 @@
             <div th:if="${exam.result.name() == 'PASSED' && exam.status.name() == 'PUBLISHED'}" id="refuse">
                 <a class="button" th:href="@{/Refuse(examId=${exam.id})}">Refuse</a>
             </div>
-        </div>
+        </th:block>
     </div>
 </div>
 </body>

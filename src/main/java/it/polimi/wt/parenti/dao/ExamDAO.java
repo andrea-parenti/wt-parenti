@@ -266,27 +266,20 @@ public class ExamDAO {
                 UPDATE
                     exams
                 SET
-                    status = 'inserted', result = ?
+                    status = 'inserted', result = ?, grade = ?, laude = ?
+                WHERE
+                    id = ?
                 """;
-        if (grade != null) {
-            query += ", grade = ?";
-            if (laude != null) {
-                query += ", laude = ?";
-            }
-        }
-        query += " WHERE id = ?";
         try (var statement = connection.prepareStatement(query)) {
             statement.setString(1, result.displayName());
-            var nextIndex = 2;
-            if (grade != null) {
-                statement.setInt(nextIndex, grade);
-                ++nextIndex;
-                if (laude != null) {
-                    statement.setBoolean(nextIndex, laude);
-                    ++nextIndex;
-                }
-            }
-            statement.setInt(nextIndex, examID);
+
+            if (grade == null) statement.setNull(2, Types.NULL);
+            else statement.setInt(2, grade);
+
+            if (laude == null) statement.setNull(3, Types.NULL);
+            else statement.setBoolean(3, laude);
+
+            statement.setInt(4, examID);
             statement.executeUpdate();
         }
     }

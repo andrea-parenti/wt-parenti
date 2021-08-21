@@ -25,21 +25,42 @@
             Bachelor course: <span th:text="${exam.student.bachelorCourse}"></span>
         </p>
     </div>
-    <div class="container" id="exam-data-container">
-        <form action="#" method="POST" th:action="@{/Login}">
-            <label>
-                Username: <input name="username" type="text">
-            </label>
-            <br>
-            <label>
-                Password: <input name="password" type="password">
-            </label>
-            <br>
-            <input name="examId" type="hidden" value="${exam.id}">
-            <input type="submit" name="update" value="update">
-            <p th:if="${errorMsg}" th:text="${errorMsg}"></p>
-        </form>
+    <div th:switch="${exam.status.name()}" class="container" id="exam-data-container">
+        <th:block th:case="'NOT_INSERTED_YET'">
+            <p>
+                The grade hasn't been inserted yet.
+            </p>
+        </th:block>
+        <th:block th:case="*">
+            <th:block th:switch="${exam.result.name()}">
+                <p th:case="'PASSED'">
+                    Inserted grade: <span th:text="${exam.grade}"></span><span th:if="${exam.laude}"> cum laude</span>
+                </p>
+                <p th:case="*" th:text="${exam.result.displayName()}"></p>
+            </th:block>
+            <p>
+                Course: <span th:text="${exam.examSession.course.code}"></span> - <span
+                    th:text="${exam.examSession.course.name}"></span>
+            </p>
+            <p>
+                Taken on: <span th:text="${exam.examSession.date}"></span>
+            </p>
+            <p th:if="${exam.status.name() == 'REPORTED'}">
+                Reported on: <span th:text="${exam.report.creation}"></span>
+            </p>
+        </th:block>
     </div>
+    <form action="#" method="POST" th:action="@{/UpdateGrade}">
+        <label for="grade">Grade</label>
+        <select name="grade" id="grade">
+            <th:block th:each="o : ${options}">
+                <option th:value="${o}" th:text="${o}"></option>
+            </th:block>
+        </select>
+        <input name="examId" type="hidden" th:value="${exam.id}">
+        <input type="submit" name="update" value="update">
+    </form>
+    <p th:if="${errorMsg}" th:text="${errorMsg}"></p>
 </div>
 </body>
 </html>

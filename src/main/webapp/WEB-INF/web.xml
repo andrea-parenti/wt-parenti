@@ -91,6 +91,33 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>PublishServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.PublishServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PublishServlet</servlet-name>
+        <url-pattern>/Publish</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReportServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.ReportServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportServlet</servlet-name>
+        <url-pattern>/Report</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RefuseServlet</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.RefuseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RefuseServlet</servlet-name>
+        <url-pattern>/Refuse</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ErrorHandlerServlet</servlet-name>
         <servlet-class>it.polimi.wt.parenti.controllers.ErrorHandlerServlet</servlet-class>
     </servlet>
@@ -113,6 +140,10 @@
         <url-pattern>/HomeProfessor</url-pattern>
         <url-pattern>/ExamResult</url-pattern>
         <url-pattern>/RegisteredStudents</url-pattern>
+        <url-pattern>/UpdateGrade</url-pattern>
+        <url-pattern>/Publish</url-pattern>
+        <url-pattern>/Report</url-pattern>
+        <url-pattern>/Refuse</url-pattern>
         <url-pattern>/Error</url-pattern>
     </filter-mapping>
 
@@ -126,6 +157,10 @@
         <url-pattern>/HomeProfessor</url-pattern>
         <url-pattern>/ExamResult</url-pattern>
         <url-pattern>/RegisteredStudents</url-pattern>
+        <url-pattern>/UpdateGrade</url-pattern>
+        <url-pattern>/Publish</url-pattern>
+        <url-pattern>/Report</url-pattern>
+        <url-pattern>/Refuse</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -136,6 +171,7 @@
         <filter-name>StudentFilter</filter-name>
         <url-pattern>/HomeStudent</url-pattern>
         <url-pattern>/ExamResult</url-pattern>
+        <url-pattern>/Refuse</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -147,6 +183,8 @@
         <url-pattern>/HomeProfessor</url-pattern>
         <url-pattern>/RegisteredStudents</url-pattern>
         <url-pattern>/UpdateGrade</url-pattern>
+        <url-pattern>/Publish</url-pattern>
+        <url-pattern>/Report</url-pattern>
     </filter-mapping>
 
     <!--OTHER CONFIGURATIONS-->

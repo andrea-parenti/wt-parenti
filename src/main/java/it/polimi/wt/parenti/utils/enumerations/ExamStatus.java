@@ -1,6 +1,6 @@
 package it.polimi.wt.parenti.utils.enumerations;
 
-import java.util.Locale;
+import java.util.Arrays;
 
 /**
  * This enum lists all the possible statuses of an exam's mark.
@@ -10,7 +10,9 @@ public enum ExamStatus {
 
     public static ExamStatus fromString(final String status) {
         if (status == null) return null;
-        return valueOf(status.replaceAll("\\s+", "_").toUpperCase());
+        var name = status.replaceAll("\\s+", "_").toUpperCase();
+        if (Arrays.stream(values()).map(Enum::name).toList().contains(name)) return valueOf(name);
+        else return null;
     }
 
     public String displayName() {
