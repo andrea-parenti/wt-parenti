@@ -18,24 +18,6 @@ public class StudentDAO {
         this.connection = connection;
     }
 
-    public boolean checkStudent(User user) throws SQLException {
-        if (user == null || user.getRole() != UserRole.STUDENT) return false;
-        var query = """
-                SELECT
-                    COUNT(*)
-                FROM
-                    students
-                WHERE
-                    id = ?
-                """;
-        try (var statement = connection.prepareStatement(query)) {
-            statement.setInt(1, user.getId());
-            try (var result = statement.executeQuery()) {
-                return result.isBeforeFirst();
-            }
-        }
-    }
-
     public List<Course> getAttendedCourses(int studentID) throws SQLException {
         var query = """
                 SELECT

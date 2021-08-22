@@ -352,6 +352,7 @@ public class ExamDAO {
             s4 = connection.prepareStatement(updateStatus);
             s4.setInt(1, examReportID);
             s4.setInt(2, examSessionID);
+            s4.executeUpdate();
 
             connection.commit();
         } catch (SQLException e) {
@@ -378,6 +379,52 @@ public class ExamDAO {
         try (var statement = connection.prepareStatement(query)) {
             statement.setInt(1, examId);
             statement.executeUpdate();
+        }
+    }
+
+    public boolean isThereAnyReportableExam(int examSessionId) throws SQLException {
+        var query = """
+                SELECT
+                    COUNT(*)
+                FROM
+                    exams AS E
+                    JOIN exam_sessions AS ES ON E.exam_session_id = ES.id
+                    JOIN courses AS C ON ES.course_id = C.id
+                    JOIN professors AS P ON C.professor_id = P.id
+                    JOIN students AS S ON E.student_id = S.id
+                WHERE
+                    ES.id = ? AND E.status = 'published'
+                """;
+        try (var statement = connection.prepareStatement(query)) {
+            statement.setInt(1, examSessionId);
+            try (var result = statement.executeQuery()) {
+                if (!result.isBeforeFirst()) return false;
+                result.next();
+                return result.getInt(1) == 0 ? false : true;
+            }
+        }
+    }
+
+    public boolean isThereAnyPublishableExam(int examSessionId) throws SQLException {
+        var query = """
+                SELECT
+                    COUNT(*)
+                FROM
+                    exams AS E
+                    JOIN exam_sessions AS ES ON E.exam_session_id = ES.id
+                    JOIN courses AS C ON ES.course_id = C.id
+                    JOIN professors AS P ON C.professor_id = P.id
+                    JOIN students AS S ON E.student_id = S.id
+                WHERE
+                    ES.id = ? AND E.status = 'inserted'
+                """;
+        try (var statement = connection.prepareStatement(query)) {
+            statement.setInt(1, examSessionId);
+            try (var result = statement.executeQuery()) {
+                if (!result.isBeforeFirst()) return false;
+                result.next();
+                return result.getInt(1) == 0 ? false : true;
+            }
         }
     }
 }

@@ -41,25 +41,6 @@ public class UserDAO {
         }
     }
 
-    public boolean checkUser(User user) throws SQLException {
-        var query = """
-                SELECT
-                    COUNT(*)
-                FROM
-                    users
-                WHERE
-                    id = ? AND username = ? AND role = ?
-                """;
-        try (var statement = connection.prepareStatement(query)) {
-            statement.setInt(1, user.getId());
-            statement.setString(2, user.getUsername());
-            statement.setString(3, user.getRole().toString());
-            try (var result = statement.executeQuery()) {
-                return result.isBeforeFirst();
-            }
-        }
-    }
-
     public Optional<Student> associateStudent(User user) throws SQLException {
         if (user == null || user.getRole() != UserRole.STUDENT) return Optional.empty();
         var query = """

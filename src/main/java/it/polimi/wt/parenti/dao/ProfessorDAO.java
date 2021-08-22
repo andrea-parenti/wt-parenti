@@ -18,24 +18,6 @@ public class ProfessorDAO {
         this.connection = connection;
     }
 
-    public boolean checkProfessor(User user) throws SQLException {
-        if (user == null || user.getRole() != UserRole.PROFESSOR) return false;
-        var query = """
-                SELECT
-                    COUNT(*)
-                FROM
-                    professors
-                WHERE
-                    id = ?
-                """;
-        try (var statement = connection.prepareStatement(query)) {
-            statement.setInt(1, user.getId());
-            try (var result = statement.executeQuery()) {
-                return result.isBeforeFirst();
-            }
-        }
-    }
-
     public List<Course> getTaughtCourses(int professorID) throws SQLException {
         var query = """
                 SELECT

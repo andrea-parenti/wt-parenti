@@ -69,7 +69,8 @@ public class ReportServlet extends HttpServlet {
             e.printStackTrace();
         }
         try {
-            eDao.report(examSessionID);
+            if (eDao.isThereAnyReportableExam(examSessionID))
+                eDao.report(examSessionID);
         } catch (SQLException e) {
             e.printStackTrace();
         }

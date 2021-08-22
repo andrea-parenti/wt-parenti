@@ -44,7 +44,6 @@ public class RefuseServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final var context = new WebContext(request, response, getServletContext(), request.getLocale());
         var s = (Student) request.getSession().getAttribute("student");
         var eDao = new ExamDAO(connection);
         var parameter = StringEscapeUtils.escapeJava(request.getParameter("examId"));
@@ -57,7 +56,8 @@ public class RefuseServlet extends HttpServlet {
                         e.get().getResult() == ExamResult.PASSED &&
                         e.get().getStatus() == ExamStatus.PUBLISHED) {
                     eDao.refuse(examID);
-                    response.sendRedirect(request.getContextPath() + "/ExamResult?examId=" + examID);
+                    response.sendRedirect(request.getContextPath() + "/ExamResult?examSessionId=" + e.get().getExamSession().getId());
+                    return;
                 }
             } catch (NumberFormatException | SQLException e) {
                 e.printStackTrace();

@@ -65,7 +65,7 @@
                     </th:block>
                 </td>
                 <td th:text="${e.status.displayName()}"></td>
-                <td>
+                <td class="hidden">
                     <th:block th:if="${e.status}">
                         <a class="button"
                            th:if="${e.status.name() == 'NOT_INSERTED_YET' || e.status.name() == 'INSERTED'}"
