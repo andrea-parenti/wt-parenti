@@ -25,13 +25,13 @@
             Bachelor course: <span th:text="${exam.student.bachelorCourse}"></span>
         </p>
     </div>
-    <div th:switch="${exam.status.name()}" class="container" id="exam-data-container">
-        <th:block th:case="'NOT_INSERTED_YET'">
+    <div class="container" id="exam-data-container">
+        <th:block th:if="${exam.status.name() eq 'NOT_INSERTED_YET' || exam.status.name() eq 'INSERTED'}">
             <p>
-                The grade hasn't been inserted yet.
+                The grade hasn't been defined yet.
             </p>
         </th:block>
-        <th:block th:case="*">
+        <th:block th:unless="${exam.status.name() eq 'NOT_INSERTED_YET' || exam.status.name() eq 'INSERTED'}">
             <th:block th:switch="${exam.result.name()}">
                 <p th:case="'PASSED'">
                     Grade: <span th:text="${exam.grade}"></span><span th:if="${exam.laude}"> cum laude</span>

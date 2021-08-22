@@ -1,7 +1,12 @@
 package it.polimi.wt.parenti.controllers;
 
+import it.polimi.wt.parenti.beans.Professor;
+import it.polimi.wt.parenti.dao.ExamDAO;
+import it.polimi.wt.parenti.dao.ProfessorDAO;
 import it.polimi.wt.parenti.utils.ConnectionManager;
+import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
@@ -38,7 +43,38 @@ public class ReportServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        final var context = new WebContext(request, response, getServletContext(), request.getLocale());
+        var session = request.getSession(false);
+        var p = (Professor) session.getAttribute("professor");
+        var pDao = new ProfessorDAO(connection);
+        var eDao = new ExamDAO(connection);
+        var examSessionParam = StringEscapeUtils.escapeJava(request.getParameter("examSessionId"));
+        int examSessionID;
+        if (examSessionParam == null) {
+            response.sendRedirect(request.getContextPath());
+            return;
+        }
+        try {
+            examSessionID = Integer.parseInt(examSessionParam);
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath());
+            return;
+        }
+        try {
+            if (pDao.checkExamSession(p.getId(), examSessionID).isEmpty()) {
+                response.sendRedirect(request.getContextPath());
+                return;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            eDao.report(examSessionID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        context.setVariable("Message", "Exams successfully reported");
+        response.sendRedirect(request.getContextPath() + "/RegisteredStudents?examSessionId=" + examSessionID);
     }
 
     @Override

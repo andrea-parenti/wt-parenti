@@ -365,4 +365,19 @@ public class ExamDAO {
             if (s4 != null) s1.close();
         }
     }
+
+    public void refuse(int examId) throws SQLException {
+        var query = """
+                UPDATE
+                    exams
+                SET
+                    status = 'refused'
+                WHERE
+                    id = ?
+                """;
+        try (var statement = connection.prepareStatement(query)) {
+            statement.setInt(1, examId);
+            statement.executeUpdate();
+        }
+    }
 }
