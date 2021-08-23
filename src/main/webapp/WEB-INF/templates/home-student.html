@@ -6,60 +6,69 @@
     <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div th:if="${session.student}" class="container" id="main-container">
-    <div id="logout">
-        <a class="button" th:href="@{/Logout}">Logout</a>
-    </div>
-    <div class="container" id="personal-data-container">
-        <h3>
-            Nice to see you again!
-        </h3>
-        <p>
-            Matriculation: <span th:text="${session.student.matriculation}"></span>
-        </p>
-        <p>
-            Student: <span th:text="${session.student.surname}"></span> <span
-                th:text="${session.student.name}"></span>
-        </p>
-        <p>
-            Email: <span th:text="${session.student.email}"></span>
-        </p>
-        <p>
-            Bachelor course: <span th:text="${session.student.bachelorCourse}"></span>
-        </p>
-    </div>
-    <div th:unless="${#lists.isEmpty(courses)}" class="container" id="courses-container">
-        <table id="courses-table">
-            <thead>
-            <tr>
-                <th scope="col">Code</th>
-                <th scope="col">Name</th>
-                <th scope="col">Professor</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="c : ${courses}">
-                <td><a th:text="${c.code}" th:href="@{/HomeStudent(selectedCourse=${c.id})}">c.code</a></td>
-                <td><a th:text="${c.name}" th:href="@{/HomeStudent(selectedCourse=${c.id})}">c.name</a></td>
-                <td th:text="${c.professor.surname} + ' ' + ${c.professor.name}">c.professor</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div th:unless="${#lists.isEmpty(dates)}" class="container" id="exam-sessions-container">
-        <table id="dates-table">
-            <thead>
-            <tr>
-                <th scope="col">Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="d : ${dates}">
-                <td><a th:text="${d.date}" th:href="@{/ExamResult(examSessionId=${d.id})}"></a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<div th:if="${session.student}" id="site-wrapper">
+    <nav id="top-bar">
+        <div id="top-bar-left">
+            <h1 id="welcome-message">
+                Nice to see you again, <span th:text="${session.student.name}"></span>!
+            </h1>
+        </div>
+        <div id="top-bar-middle"></div>
+        <div id="top-bar-right">
+            <a class="button" id="logout" th:href="@{/Logout}">Logout</a>
+        </div>
+    </nav>
+    <main id="site-main">
+        <div class="container content-block-row">
+            <div class="container content-block-column" id="personal-data-container">
+                <p>
+                    Matriculation: <span th:text="${session.student.matriculation}"></span>
+                </p>
+                <p>
+                    Student: <span th:text="${session.student.surname}"></span> <span
+                        th:text="${session.student.name}"></span>
+                </p>
+                <p>
+                    Email: <span th:text="${session.student.email}"></span>
+                </p>
+                <p>
+                    Bachelor course: <span th:text="${session.student.bachelorCourse}"></span>
+                </p>
+            </div>
+            <div class="container content-block-row" id="courses-data-container">
+                <table th:unless="${#lists.isEmpty(courses)}" id="courses-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Code</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Professor</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="c : ${courses}">
+                        <td><a th:text="${c.code}" th:href="@{/HomeStudent(selectedCourse=${c.id})}">c.code</a></td>
+                        <td><a th:text="${c.name}" th:href="@{/HomeStudent(selectedCourse=${c.id})}">c.name</a></td>
+                        <td th:text="${c.professor.surname} + ' ' + ${c.professor.name}">c.professor</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:unless="${#lists.isEmpty(dates)}" class="not-flex-container">
+                    <table th:unless="${#lists.isEmpty(dates)}" id="dates-table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="d : ${dates}">
+                            <td><a th:text="${d.date}" th:href="@{/ExamResult(examSessionId=${d.id})}"></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
 </body>
 </html>

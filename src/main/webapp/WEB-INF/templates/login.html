@@ -3,20 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<h1>Welcome to Exam Management Application</h1>
-<form action="#" method="POST" th:action="@{/Login}">
-    <label>
-        Username: <input name="username" type="text">
-    </label>
-    <br>
-    <label>
-        Password: <input name="password" type="password">
-    </label>
-    <br>
-    <input type="submit" value="login">
-    <p th:if="${errorMsg}" th:text="${errorMsg}"></p>
-</form>
+<div id="site-wrapper">
+    <nav id="top-bar">
+        <div id="top-bar-middle">
+            <h1 id="welcome-message">Welcome to Exam Management Application</h1>
+        </div>
+    </nav>
+    <main id="site-main">
+        <div class="container content-block-column" id="login-form-container">
+            <h1>Login</h1>
+            <form id="login-form" action="#" method="POST" th:action="@{/Login}">
+                <div class="container content-block-row">
+                    <input name="username" type="text" id="username_input">
+                    <label for="username_input">Username</label>
+                </div>
+                <div class="container content-block-row">
+                    <input name="password" type="password" id="password_input">
+                    <label for="password_input">Password</label>
+                </div>
+                <div class="container content-block-row">
+                    <input type="submit" value="login">
+                </div>
+                <p th:if="${errorMsg}" th:text="${errorMsg}"></p>
+            </form>
+        </div>
+    </main>
+</div>
 </body>
 </html>
