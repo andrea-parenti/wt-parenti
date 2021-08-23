@@ -19,14 +19,14 @@
         </div>
     </nav>
     <main id="site-main">
-        <div class="container content-block-row">
-            <div class="container content-block-column" id="personal-data-container">
+        <div class="flex-container content-block-row">
+            <div class="flex-container content-block-column" id="personal-data-container">
                 <p>
                     Professor: <span th:text="${session.professor.surname}"></span> <span
                         th:text="${session.professor.name}"></span>
                 </p>
             </div>
-            <div class="container content-block-row" id="courses-data-container">
+            <div class="flex-container content-block-row" id="courses-data-container">
                 <table th:unless="${#lists.isEmpty(courses)}" id="courses-table">
                     <thead>
                     <tr>

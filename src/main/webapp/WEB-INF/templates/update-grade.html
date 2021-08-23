@@ -6,61 +6,83 @@
     <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div th:if="${session.professor && exam}" class="container" id="main-container">
-    <h3>
-        Exam details
-    </h3>
-    <div id="logout">
-        <a class="button" th:href="@{/Logout}">Logout</a>
-    </div>
-    <div class="container" id="student-data-container">
-        <p>
-            Student: <span th:text="${exam.student.surname}"></span> <span
-                th:text="${exam.student.name}"></span>
-        </p>
-        <p>
-            Email: <span th:text="${exam.student.email}"></span>
-        </p>
-        <p>
-            Bachelor course: <span th:text="${exam.student.bachelorCourse}"></span>
-        </p>
-    </div>
-    <div th:switch="${exam.status.name()}" class="container" id="exam-data-container">
-        <th:block th:case="'NOT_INSERTED_YET'">
-            <p>
-                The grade hasn't been inserted yet.
-            </p>
-        </th:block>
-        <th:block th:case="*">
-            <th:block th:switch="${exam.result.name()}">
-                <p th:case="'PASSED'">
-                    Inserted grade: <span th:text="${exam.grade}"></span><span th:if="${exam.laude}"> cum laude</span>
+<div id="site-wrapper">
+    <nav th:if="${session.professor}" id="top-bar">
+        <div id="top-bar-left">
+            <h1 id="welcome-message">
+                Exam details<span th:if="${exam}" th:text="' for ' + ${exam.student.matriculation}"></span>
+            </h1>
+        </div>
+        <div id="top-bar-middle">
+            <h1 id="additional-info">
+                <span th:if="${exam}" th:text="${exam.examSession.course.name}"></span>
+            </h1>
+        </div>
+        <div id="top-bar-right">
+            <a class="button" id="logout" th:href="@{/Logout}">Logout</a>
+        </div>
+    </nav>
+    <main th:if="${session.professor && exam}" id="site-main">
+        <div class="flex-container content-block-row">
+            <div class="flex-container content-block-column" id="student-data-container">
+                <p>
+                    Matriculation: <span th:text="${exam.student.matriculation}"></span>
                 </p>
-                <p th:case="*" th:text="${exam.result.displayName()}"></p>
-            </th:block>
-            <p>
-                Course: <span th:text="${exam.examSession.course.code}"></span> - <span
-                    th:text="${exam.examSession.course.name}"></span>
-            </p>
-            <p>
-                Taken on: <span th:text="${exam.examSession.date}"></span>
-            </p>
-            <p th:if="${exam.status.name() == 'REPORTED'}">
-                Reported on: <span th:text="${exam.report.creation}"></span>
-            </p>
-        </th:block>
-    </div>
-    <form action="#" method="POST" th:action="@{/UpdateGrade}">
-        <label for="grade">Grade</label>
-        <select name="grade" id="grade">
-            <th:block th:each="o : ${options}">
-                <option th:value="${o}" th:text="${o}"></option>
-            </th:block>
-        </select>
-        <input name="examId" type="hidden" th:value="${exam.id}">
-        <input type="submit" name="update" value="update">
-    </form>
-    <p th:if="${errorMsg}" th:text="${errorMsg}"></p>
+                <p>
+                    Student: <span th:text="${exam.student.surname}"></span> <span
+                        th:text="${exam.student.name}"></span>
+                </p>
+                <p>
+                    Email: <span th:text="${exam.student.email}"></span>
+                </p>
+                <p>
+                    Bachelor course: <span th:text="${exam.student.bachelorCourse}"></span>
+                </p>
+            </div>
+            <div class="flex-container content-block-column" id="exam-data-container">
+                <th:block th:switch="${exam.status.name()}">
+                    <th:block th:case="'NOT_INSERTED_YET'">
+                        <p>
+                            The grade hasn't been inserted yet.
+                        </p>
+                    </th:block>
+                    <th:block th:case="*">
+                        <th:block th:switch="${exam.result.name()}">
+                            <p th:case="'PASSED'">
+                                Inserted grade: <span th:text="${exam.grade}"></span><span
+                                    th:if="${exam.laude}"> cum laude</span>
+                            </p>
+                            <p th:case="*" th:text="${exam.result.displayName()}"></p>
+                        </th:block>
+                        <p>
+                            Course: <span th:text="${exam.examSession.course.code}"></span> - <span
+                                th:text="${exam.examSession.course.name}"></span>
+                        </p>
+                        <p>
+                            Taken on: <span th:text="${exam.examSession.date}"></span>
+                        </p>
+                        <p th:if="${exam.status.name() == 'REPORTED'}">
+                            Reported on: <span th:text="${exam.report.creation}"></span>
+                        </p>
+                    </th:block>
+                </th:block>
+            </div>
+            <div class="flex-container content-block-column" id="update-form-container">
+                <h1>Login</h1>
+                <form action="#" method="POST" th:action="@{/UpdateGrade}">
+                    <label for="grade">Grade</label>
+                    <select name="grade" id="grade">
+                        <th:block th:each="o : ${options}">
+                            <option th:value="${o}" th:text="${o}"></option>
+                        </th:block>
+                    </select>
+                    <input name="examId" type="hidden" th:value="${exam.id}">
+                    <input type="submit" name="update" value="update">
+                </form>
+                <p th:if="${errorMsg}" th:text="${errorMsg}"></p>
+            </div>
+        </div>
+    </main>
 </div>
 </body>
 </html>

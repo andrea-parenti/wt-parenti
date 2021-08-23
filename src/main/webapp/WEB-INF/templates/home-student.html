@@ -19,8 +19,8 @@
         </div>
     </nav>
     <main id="site-main">
-        <div class="container content-block-row">
-            <div class="container content-block-column" id="personal-data-container">
+        <div class="flex-container content-block-row">
+            <div class="flex-container content-block-column" id="personal-data-container">
                 <p>
                     Matriculation: <span th:text="${session.student.matriculation}"></span>
                 </p>
@@ -35,7 +35,7 @@
                     Bachelor course: <span th:text="${session.student.bachelorCourse}"></span>
                 </p>
             </div>
-            <div class="container content-block-row" id="courses-data-container">
+            <div class="flex-container content-block-row" id="courses-data-container">
                 <table th:unless="${#lists.isEmpty(courses)}" id="courses-table">
                     <thead>
                     <tr>

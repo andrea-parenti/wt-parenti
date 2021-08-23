@@ -6,62 +6,80 @@
     <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div th:if="${session.student && exam}" class="container" id="main-container">
-    <h3>
-        Exam result
-    </h3>
-    <div id="logout">
-        <a class="button" th:href="@{/Logout}">Logout</a>
-    </div>
-    <div class="container" id="student-data-container">
-        <p>
-            Student: <span th:text="${exam.student.surname}"></span> <span
-                th:text="${exam.student.name}"></span>
-        </p>
-        <p>
-            Email: <span th:text="${exam.student.email}"></span>
-        </p>
-        <p>
-            Bachelor course: <span th:text="${exam.student.bachelorCourse}"></span>
-        </p>
-    </div>
-    <div class="container" id="exam-data-container">
-        <th:block th:if="${exam.status.name() eq 'NOT_INSERTED_YET' || exam.status.name() eq 'INSERTED'}">
-            <p>
-                The grade hasn't been defined yet.
-            </p>
-        </th:block>
-        <th:block th:unless="${exam.status.name() eq 'NOT_INSERTED_YET' || exam.status.name() eq 'INSERTED'}">
-            <th:block th:switch="${exam.result.name()}">
-                <p th:case="'PASSED'">
-                    Grade: <span th:text="${exam.grade}"></span><span th:if="${exam.laude}"> cum laude</span>
+<div id="site-wrapper">
+    <nav th:if="${session.student}" id="top-bar">
+        <div id="top-bar-left">
+            <h1 id="welcome-message">
+                <span th:text="${session.student.name}"></span>'s exam result
+            </h1>
+        </div>
+        <div id="top-bar-middle">
+            <h1 id="additional-info">
+                <span th:text="${exam.examSession.course.name}"></span>
+            </h1>
+        </div>
+        <div id="top-bar-right">
+            <a class="button" id="logout" th:href="@{/Logout}">Logout</a>
+        </div>
+    </nav>
+    <main th:if="${session.student && exam}" id="site-main">
+        <div class="flex-container content-block-row">
+            <div class="flex-container content-block-column" id="personal-data-container">
+                <p>
+                    Matriculation: <span th:text="${session.student.matriculation}"></span>
                 </p>
-                <p th:case="'SENT_BACK'">
-                    You're not admitted to the next session of this course.
+                <p>
+                    Student: <span th:text="${exam.student.surname}"></span><span
+                        th:text="' ' + ${exam.student.name}"></span>
                 </p>
-                <p th:case="*">
-                    You can retry in the next session of this course.
+                <p>
+                    Email: <span th:text="${exam.student.email}"></span>
                 </p>
-            </th:block>
-            <p>
-                Course: <span th:text="${exam.examSession.course.code}"></span> - <span
-                    th:text="${exam.examSession.course.name}"></span>
-            </p>
-            <p>
-                Professor: <span th:text="${exam.examSession.course.professor.surname}"></span> <span
-                    th:text="${exam.examSession.course.professor.name}"></span>
-            </p>
-            <p>
-                Taken on: <span th:text="${exam.examSession.date}"></span>
-            </p>
-            <p th:if="${exam.status.name() == 'REPORTED'}">
-                Reported on: <span th:text="${exam.report.creation}"></span>
-            </p>
-            <div th:if="${exam.result.name() == 'PASSED' && exam.status.name() == 'PUBLISHED'}" id="refuse">
-                <a class="button" th:href="@{/Refuse(examId=${exam.id})}">Refuse</a>
+                <p>
+                    Bachelor course: <span th:text="${exam.student.bachelorCourse}"></span>
+                </p>
             </div>
-        </th:block>
-    </div>
+            <div class="flex-container content-block-column" id="exam-data-container">
+                <th:block th:if="${exam.status.name() eq 'NOT_INSERTED_YET' || exam.status.name() eq 'INSERTED'}">
+                    <p>
+                        The grade hasn't been defined yet.
+                    </p>
+                </th:block>
+                <th:block th:unless="${exam.status.name() eq 'NOT_INSERTED_YET' || exam.status.name() eq 'INSERTED'}">
+                    <th:block th:switch="${exam.result.name()}">
+                        <p th:case="'PASSED'">
+                            Grade: <span th:text="${exam.grade}"></span><span th:if="${exam.laude}"> cum laude</span>
+                            <span th:if="${exam.status.name() eq 'REFUSED'}"
+                                  th:text="'(' + ${exam.status.displayName()} + ')'"></span>
+                        </p>
+                        <p th:case="'SENT_BACK'">
+                            You're not admitted to the next session of this course.
+                        </p>
+                        <p th:case="*">
+                            You can retry in the next session of this course.
+                        </p>
+                    </th:block>
+                    <p>
+                        Course: <span th:text="${exam.examSession.course.code}"></span> - <span
+                            th:text="${exam.examSession.course.name}"></span>
+                    </p>
+                    <p>
+                        Professor: <span th:text="${exam.examSession.course.professor.surname}"></span> <span
+                            th:text="${exam.examSession.course.professor.name}"></span>
+                    </p>
+                    <p>
+                        Taken on: <span th:text="${exam.examSession.date}"></span>
+                    </p>
+                    <p th:if="${exam.status.name() == 'REPORTED'}">
+                        Reported on: <span th:text="${exam.report.creation}"></span>
+                    </p>
+                    <div th:if="${exam.result.name() == 'PASSED' && exam.status.name() == 'PUBLISHED'}">
+                        <a class="button" id="refuse" th:href="@{/Refuse(examId=${exam.id})}">Refuse</a>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </main>
 </div>
 </body>
 </html>
