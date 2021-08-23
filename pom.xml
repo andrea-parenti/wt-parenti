@@ -10,6 +10,23 @@
     <name>wt-parenti</name>
     <packaging>war</packaging>
 
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>internal.repo</id>
+            <name>Default Repository</name>
+            <url>file:///home/andrea/IdeaProjects/wt-repositories/</url>
+            <layout>default</layout>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>true</uniqueVersion>
+            <id>internal.snap.repo</id>
+            <name>Snapshots</name>
+            <url>file:///home/andrea/IdeaProjects/wt-repositories/</url>
+            <layout>default</layout>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
