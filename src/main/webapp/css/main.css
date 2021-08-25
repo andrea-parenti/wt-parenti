@@ -9,7 +9,7 @@ h1 {
 }
 
 label {
-    margin: .5em;
+    margin: .3em;
 }
 
 table {
@@ -161,31 +161,36 @@ td.hidden {
 }
 
 a.button#logout {
-    background-image: linear-gradient(#fd5a0a, #bb3500);
-    border-color: black;
-    color: white;
+    /*background-image: linear-gradient(#fd5a0a, #bb3500);*/
+    background-color: #fa702d;
+    border-color: #bb3500;
+    color: black;
 }
 
 a.button#refuse {
-    background-image: linear-gradient(#b40ae3,#070a8c);
-    border-color: black;
-    color: white;
+    /*background-image: linear-gradient(#b40ae3,#070a8c);*/
+    background-color: #c56bd5;
+    border-color: #8c0cb7;
+    color: black;
 }
 
 a.button#report {
-    background-image: linear-gradient(#44e30a,#0a6a1d);
-    border-color: black;
-    color: white;
+    /*background-image: linear-gradient(#44e30a,#0a6a1d);*/
+    background-color: #68ee6d;
+    border-color: #057a0b;
+    color: black;
 }
 
 a.button#publish {
-    background-image: linear-gradient(#fecc4c,#ffac33);
-    border-color: black;
-    color: white;
+    /*background-image: linear-gradient(#fecc4c,#ffac33);*/
+    background-color: #fecc4c;
+    border-color: #ffac33;
+    color: black;
 }
 
 a.button#edit {
-    background-image: linear-gradient(#059bec, #000ad9);
-    border-color: black;
-    color: white;
+    /*background-image: linear-gradient(#059bec, #000ad9);*/
+    background-color: #33b3f6;
+    border-color: #080c9b;
+    color: black;
 }

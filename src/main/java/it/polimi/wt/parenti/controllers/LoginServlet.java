@@ -3,7 +3,7 @@ package it.polimi.wt.parenti.controllers;
 import it.polimi.wt.parenti.beans.User;
 import it.polimi.wt.parenti.dao.UserDAO;
 import it.polimi.wt.parenti.utils.ConnectionManager;
-import it.polimi.wt.parenti.utils.enumerations.UserRole;
+import it.polimi.wt.parenti.utils.Utility;
 import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -11,15 +11,16 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class LoginServlet extends HttpServlet {
     @Serial
@@ -65,73 +66,81 @@ public class LoginServlet extends HttpServlet {
         var password = StringEscapeUtils.escapeJava(request.getParameter("password"));
 
         if ((username == null) || username.isBlank()) {
-            final var context = new WebContext(request, response, getServletContext(), request.getLocale());
-            context.setVariable("errorMsg", "Missing username!");
-            templateEngine.process("login", context, response.getWriter());
+            var err = new HttpError(HttpServletResponse.SC_BAD_REQUEST, "Missing username!");
+            Utility.writeHttpResponse(response, err.statusCode,
+                    "application/json", err.serialize());
             return;
         }
 
         if ((password == null) || password.isBlank()) {
-            final var context = new WebContext(request, response, getServletContext(), request.getLocale());
-            context.setVariable("errorMsg", "Missing password!");
-            templateEngine.process("login", context, response.getWriter());
+            var err = new HttpError(HttpServletResponse.SC_BAD_REQUEST, "Missing password!");
+            Utility.writeHttpResponse(response, err.statusCode,
+                    "application/json", err.serialize());
             return;
         }
 
         var userDao = new UserDAO(connection);
-        Optional<User> user;
+        User user;
         try {
-            user = userDao.checkCredentials(username, password);
+            var u = userDao.checkCredentials(username, password);
+            if (u.isEmpty()) {
+                var err = new HttpError(HttpServletResponse.SC_BAD_GATEWAY, "Incorrect credentials!");
+                Utility.writeHttpResponse(response, err.statusCode,
+                        "application/json", err.serialize());
+                return;
+            }
+            user = u.get();
         } catch (SQLException e) {
-            // error handling servlet?
+            var err = new HttpError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error on database query or connection!");
+            Utility.writeHttpResponse(response, err.statusCode,
+                    "application/json", err.serialize());
             return;
         }
 
-        if (user.isEmpty()) {
-            final var context = new WebContext(request, response, getServletContext(), request.getLocale());
-            context.setVariable("errorMsg", "Incorrect credentials!");
-            templateEngine.process("login", context, response.getWriter());
-            return;
-        }
-
-        var u = user.get();
-        var path = getServletContext().getContextPath();
-        switch (u.getRole()) {
+        switch (user.getRole()) {
             case STUDENT:
                 try {
-                    var s = userDao.associateStudent(u);
+                    var s = userDao.associateStudent(user);
                     if (s.isEmpty()) {
-                        final var context = new WebContext(request, response, getServletContext(), request.getLocale());
-                        context.setVariable("errorMsg", "No student found: database consistency error!");
-                        templateEngine.process("login", context, response.getWriter());
+                        var err = new HttpError(HttpServletResponse.SC_BAD_GATEWAY, "No student found: database error!");
+                        Utility.writeHttpResponse(response, err.statusCode,
+                                "application/json", err.serialize());
                         return;
                     }
-                    request.getSession().setAttribute("student", s.get());
-                    path += "/HomeStudent";
+                    var student = s.get();
+                    var userAttr = new UserAttributes<>(user, student);
+                    Utility.writeHttpResponse(response, HttpServletResponse.SC_OK, "application/json", userAttr.serialize());
+                    request.getSession().setAttribute("user", user);
+                    request.getSession().setAttribute("student", student);
                 } catch (SQLException e) {
-                    // error handling servlet?
+                    var err = new HttpError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error on database query or connection!");
+                    Utility.writeHttpResponse(response, err.statusCode,
+                            "application/json", err.serialize());
                     return;
                 }
                 break;
             case PROFESSOR:
                 try {
-                    var p = userDao.associateProfessor(u);
+                    var p = userDao.associateProfessor(user);
                     if (p.isEmpty()) {
-                        final var context = new WebContext(request, response, getServletContext(), request.getLocale());
-                        context.setVariable("errorMsg", "No professor found: database consistency error!");
-                        templateEngine.process("login", context, response.getWriter());
+                        var err = new HttpError(HttpServletResponse.SC_BAD_GATEWAY, "No professor found: database error!");
+                        Utility.writeHttpResponse(response, err.statusCode,
+                                "application/json", err.serialize());
                         return;
                     }
-                    request.getSession().setAttribute("professor", p.get());
-                    path += "/HomeProfessor";
+                    var professor = p.get();
+                    var userAttr = new UserAttributes<>(user, professor);
+                    Utility.writeHttpResponse(response, HttpServletResponse.SC_OK, "application/json", userAttr.serialize());
+                    request.getSession().setAttribute("user", user);
+                    request.getSession().setAttribute("professor", professor);
                 } catch (SQLException e) {
-                    // error handling servlet?
+                    var err = new HttpError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error on database query or connection!");
+                    Utility.writeHttpResponse(response, err.statusCode,
+                            "application/json", err.serialize());
                     return;
                 }
                 break;
         }
-        request.getSession().setAttribute("user", u);
-        response.sendRedirect(path);
     }
 
     @Override
@@ -141,6 +150,34 @@ public class LoginServlet extends HttpServlet {
             ConnectionManager.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private class UserAttributes<T> implements Serializable {
+        private final User loginData;
+        private final T personalData;
+
+        private UserAttributes(User loginData, T personalData) {
+            this.loginData = loginData;
+            this.personalData = personalData;
+        }
+
+        private String serialize() {
+            return Utility.getJsonParser().toJson(this);
+        }
+    }
+
+    private class HttpError implements Serializable {
+        private final int statusCode;
+        private final String displayMessage;
+
+        private HttpError(int statusCode, String displayMessage) {
+            this.statusCode = statusCode;
+            this.displayMessage = displayMessage;
+        }
+
+        private String serialize() {
+            return Utility.getJsonParser().toJson(this);
         }
     }
 }

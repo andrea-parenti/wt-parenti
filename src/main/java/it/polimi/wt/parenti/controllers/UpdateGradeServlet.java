@@ -4,7 +4,7 @@ import it.polimi.wt.parenti.beans.Professor;
 import it.polimi.wt.parenti.dao.ExamDAO;
 import it.polimi.wt.parenti.dao.ProfessorDAO;
 import it.polimi.wt.parenti.utils.ConnectionManager;
-import it.polimi.wt.parenti.utils.Constants;
+import it.polimi.wt.parenti.utils.Utility;
 import it.polimi.wt.parenti.utils.enumerations.ExamResult;
 import it.polimi.wt.parenti.utils.enumerations.ExamStatus;
 import org.apache.commons.text.StringEscapeUtils;
@@ -28,7 +28,7 @@ public class UpdateGradeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection;
     private TemplateEngine templateEngine;
-    private static final List<String> options = Constants.initializeOptions();
+    private static final List<String> options = Utility.initializeOptions();
 
     public UpdateGradeServlet() {
         super();

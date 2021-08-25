@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link href="../../css/main.css" th:href="@{/css/main.css}" media="all" rel="stylesheet" type="text/css"/>
+    <script src="../../scripts/deepcopy.js" th:src="@{/scripts/deepcopy.js}" type="text/javascript" defer></script>
+    <script src="../../scripts/ajax.js" th:src="@{/scripts/ajax.js}" type="text/javascript" defer></script>
+    <script src="../../scripts/loginManager.js" th:src="@{/scripts/loginManager.js}" type="text/javascript"
+            defer></script>
 </head>
 <body>
 <div id="site-wrapper">
@@ -16,18 +20,22 @@
         <div class="flex-container content-block-column" id="login-form-container">
             <h1>Login</h1>
             <form id="login-form" action="#" method="POST" th:action="@{/Login}">
-                <div class="flex-container content-block-row">
-                    <input name="username" type="text" id="username_input">
-                    <label for="username_input">Username</label>
+                <fieldset>
+                    <div class="flex-container content-block-row">
+                        <input name="username" type="text" id="username_input" required>
+                        <label for="username_input">Username</label>
+                    </div>
+                    <div class="flex-container content-block-row">
+                        <input name="password" type="password" id="password_input" required>
+                        <label for="password_input">Password</label>
+                    </div>
+                    <div class="flex-container content-block-row">
+                        <input id="submit_login_input" type="submit" value="login">
+                    </div>
+                </fieldset>
+                <div id="errorBox" class="not-flex-container">
+                    <p id="errorMessage"></p>
                 </div>
-                <div class="flex-container content-block-row">
-                    <input name="password" type="password" id="password_input">
-                    <label for="password_input">Password</label>
-                </div>
-                <div class="flex-container content-block-row">
-                    <input type="submit" value="login">
-                </div>
-                <p th:if="${errorMsg}" th:text="${errorMsg}"></p>
             </form>
         </div>
     </main>
