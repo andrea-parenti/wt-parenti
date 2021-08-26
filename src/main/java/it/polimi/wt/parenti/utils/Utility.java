@@ -38,9 +38,14 @@ public class Utility {
         return options;
     }
 
-    public static final void writeHttpResponse(HttpServletResponse response, int sc, String mime, String content) throws IOException {
+    public static final void writeHttpResponse(HttpServletResponse response, int sc, String mime, String content)  {
         response.setStatus(sc);
         response.setContentType(mime);
-        response.getWriter().println(content);
+        try {
+            response.getWriter().println(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 }

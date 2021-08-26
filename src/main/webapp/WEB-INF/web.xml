@@ -190,12 +190,6 @@
     <!--OTHER CONFIGURATIONS-->
 
     <welcome-file-list>
-        <welcome-file>Login</welcome-file>
+        <welcome-file>login.html</welcome-file>
     </welcome-file-list>
-
-    <error-page>
-        <exception-type>java.lang.Throwable</exception-type>
-        <location>/Error</location>
-    </error-page>
-
 </web-app>

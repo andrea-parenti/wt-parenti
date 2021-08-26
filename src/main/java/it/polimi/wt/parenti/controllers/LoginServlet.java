@@ -22,11 +22,11 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@MultipartConfig
 public class LoginServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
     private Connection connection;
-    private TemplateEngine templateEngine;
 
     public LoginServlet() {
         super();
@@ -36,32 +36,11 @@ public class LoginServlet extends HttpServlet {
     public void init() throws ServletException {
         var servletContext = getServletContext();
         connection = ConnectionManager.openConnection(servletContext);
-        var templateResolver = new ServletContextTemplateResolver(servletContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
-        templateResolver.setPrefix("/WEB-INF/templates/");
-        templateResolver.setSuffix(".html");
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession s = request.getSession(false);
-        if (s == null || s.isNew() || s.getAttribute("user") == null) {
-            final var context = new WebContext(request, response, getServletContext(), request.getLocale());
-            templateEngine.process("login", context, response.getWriter());
-        } else {
-            var user = (User) s.getAttribute("user");
-            String path = getServletContext().getContextPath() + switch (user.getRole()) {
-                case STUDENT -> "/HomeStudent";
-                case PROFESSOR -> "/HomeProfessor";
-            };
-            response.sendRedirect(path);
-        }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        response.setCharacterEncoding("UTF-8");
         var username = StringEscapeUtils.escapeJava(request.getParameter("username"));
         var password = StringEscapeUtils.escapeJava(request.getParameter("password"));
 

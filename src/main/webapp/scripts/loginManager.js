@@ -6,7 +6,7 @@
         handleEvent: function (e) {
             const form = e.target.closest("form");
             if (form.checkValidity()) {
-                makeCall("POST", "Login", form, this.callBack, "application/json");
+                makeCall("POST", "Login", form, this.callBack);
             } else {
                 form.reportValidity();
             }
