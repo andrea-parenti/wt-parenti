@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.Serial;
 
-public class LogoutServlet extends HttpServlet {
+public class Logout extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -28,57 +28,66 @@
     <!--SERVLETS-->
 
     <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.LoginServlet</servlet-class>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.Login</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
+        <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.LogoutServlet</servlet-class>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.Logout</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>HomeStudentServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.HomeStudentServlet</servlet-class>
+        <servlet-name>GetCoursesProfessor</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.GetCoursesProfessor</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>HomeStudentServlet</servlet-name>
-        <url-pattern>/HomeStudent</url-pattern>
+        <servlet-name>GetCoursesProfessor</servlet-name>
+        <url-pattern>/GetCoursesProfessor</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>HomeProfessorServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.HomeProfessorServlet</servlet-class>
+        <servlet-name>GetSessionDatesProfessor</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.GetSessionDatesProfessor</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>HomeProfessorServlet</servlet-name>
-        <url-pattern>/HomeProfessor</url-pattern>
+        <servlet-name>GetSessionDatesProfessor</servlet-name>
+        <url-pattern>/GetSessionDatesProfessor</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>ExamResultServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.ExamResultServlet</servlet-class>
+        <servlet-name>GetCoursesStudent</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.GetCoursesStudent</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ExamResultServlet</servlet-name>
-        <url-pattern>/ExamResult</url-pattern>
+        <servlet-name>GetCoursesStudent</servlet-name>
+        <url-pattern>/GetCoursesStudent</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>ExamSessionServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.ExamSessionServlet</servlet-class>
+        <servlet-name>GetSessionDatesStudent</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.GetSessionDatesStudent</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ExamSessionServlet</servlet-name>
-        <url-pattern>/RegisteredStudents</url-pattern>
+        <servlet-name>GetSessionDatesStudent</servlet-name>
+        <url-pattern>/GetSessionDatesStudent</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetSessionDetails</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.GetSessionDetails</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetSessionDetails</servlet-name>
+        <url-pattern>/GetSessionDetails</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -92,7 +101,7 @@
 
     <servlet>
         <servlet-name>PublishServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.PublishServlet</servlet-class>
+        <servlet-class>it.polimi.wt.parenti.controllers.Publish</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>PublishServlet</servlet-name>
@@ -117,15 +126,6 @@
         <url-pattern>/Refuse</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>ErrorHandlerServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.ErrorHandlerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ErrorHandlerServlet</servlet-name>
-        <url-pattern>/Error</url-pattern>
-    </servlet-mapping>
-
     <!--FILTERS-->
 
     <filter>
@@ -134,17 +134,8 @@
     </filter>
     <filter-mapping>
         <filter-name>NoCacheFilter</filter-name>
-        <url-pattern>/Login</url-pattern>
-        <url-pattern>/Logout</url-pattern>
-        <url-pattern>/HomeStudent</url-pattern>
-        <url-pattern>/HomeProfessor</url-pattern>
-        <url-pattern>/ExamResult</url-pattern>
-        <url-pattern>/RegisteredStudents</url-pattern>
-        <url-pattern>/UpdateGrade</url-pattern>
-        <url-pattern>/Publish</url-pattern>
-        <url-pattern>/Report</url-pattern>
-        <url-pattern>/Refuse</url-pattern>
-        <url-pattern>/Error</url-pattern>
+        <url-pattern>/homeProfessor.html</url-pattern>
+        <url-pattern>/homeStudent.html</url-pattern>
     </filter-mapping>
 
     <filter>

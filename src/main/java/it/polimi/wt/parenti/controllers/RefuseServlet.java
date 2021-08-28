@@ -3,6 +3,7 @@ package it.polimi.wt.parenti.controllers;
 import it.polimi.wt.parenti.beans.Student;
 import it.polimi.wt.parenti.dao.ExamDAO;
 import it.polimi.wt.parenti.utils.ConnectionManager;
+import it.polimi.wt.parenti.utils.Controller;
 import it.polimi.wt.parenti.utils.enumerations.ExamResult;
 import it.polimi.wt.parenti.utils.enumerations.ExamStatus;
 import org.apache.commons.text.StringEscapeUtils;
@@ -20,26 +21,12 @@ import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class RefuseServlet extends HttpServlet {
+public class RefuseServlet extends Controller {
     @Serial
     private static final long serialVersionUID = 1L;
-    private Connection connection;
-    private TemplateEngine templateEngine;
 
     public RefuseServlet() {
         super();
-    }
-
-    @Override
-    public void init() throws ServletException {
-        var servletContext = getServletContext();
-        connection = ConnectionManager.openConnection(servletContext);
-        var templateResolver = new ServletContextTemplateResolver(servletContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
-        templateResolver.setPrefix("/WEB-INF/templates/");
-        templateResolver.setSuffix(".html");
     }
 
     @Override
@@ -56,7 +43,6 @@ public class RefuseServlet extends HttpServlet {
                         e.get().getResult() == ExamResult.PASSED &&
                         e.get().getStatus() == ExamStatus.PUBLISHED) {
                     eDao.refuse(examID);
-                    response.sendRedirect(request.getContextPath() + "/ExamResult?examSessionId=" + e.get().getExamSession().getId());
                     return;
                 }
             } catch (NumberFormatException | SQLException e) {

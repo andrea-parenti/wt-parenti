@@ -261,6 +261,85 @@ public class ExamDAO {
         }
     }
 
+    public List<Exam> getSessionDetails(int examSessionID) throws SQLException {
+        var query = """
+                SELECT
+                    E.id, E.status, E.result, E.grade, E.laude, E.exam_report_id,
+                    ES.id, ES.date,
+                    C.id, C.code, C.name,
+                    P.id, P.name, P.surname,
+                    S.id, S.matriculation, S.name, S.surname, S.email, S.bachelor_course
+                FROM
+                    exams AS E
+                    JOIN exam_sessions AS ES ON E.exam_session_id = ES.id
+                    JOIN courses AS C ON ES.course_id = C.id
+                    JOIN professors AS P ON C.professor_id = P.id
+                    JOIN students AS S ON E.student_id = S.id
+                WHERE
+                    ES.id = ?
+                """;
+        var exams = new ArrayList<Exam>();
+        try (var statement = connection.prepareStatement(query)) {
+            statement.setInt(1, examSessionID);
+            try (var result = statement.executeQuery()) {
+                while (result.next()) {
+                    var s = new Student();
+                    s.setId(result.getInt("S.id"));
+                    s.setMatriculation(result.getInt("S.matriculation"));
+                    s.setName(result.getString("S.name"));
+                    s.setSurname(result.getString("S.surname"));
+                    s.setEmail(result.getString("S.email"));
+                    s.setBachelorCourse(result.getString("S.bachelor_course"));
+                    var p = new Professor();
+                    p.setId(result.getInt("P.id"));
+                    p.setName(result.getString("P.name"));
+                    p.setSurname(result.getString("P.surname"));
+                    var c = new Course();
+                    c.setId(result.getInt("C.id"));
+                    c.setCode(result.getString("C.code"));
+                    c.setName(result.getString("C.name"));
+                    c.setProfessor(p);
+                    var es = new ExamSession();
+                    es.setId(result.getInt("ES.id"));
+                    es.setDate(result.getDate("ES.date").toLocalDate());
+                    es.setCourse(c);
+                    var e = new Exam();
+                    e.setId(result.getInt("E.id"));
+                    e.setStatus(ExamStatus.fromString(result.getString("E.status")));
+                    e.setResult(ExamResult.fromString(result.getString("E.result")));
+                    e.setGrade(result.getInt("E.grade"));
+                    e.setLaude(result.getBoolean("E.laude"));
+                    e.setExamSession(es);
+                    e.setStudent(s);
+                    var er = new ExamReport();
+                    er.setId(result.getInt("E.exam_report_id"));
+                    if (er.getId() != 0) {
+                        var additionalQuery = """
+                                SELECT
+                                    created_at
+                                FROM
+                                    exam_reports
+                                WHERE
+                                    id = ?
+                                """;
+                        try (var additionalStatement = connection.prepareStatement(additionalQuery)) {
+                            additionalStatement.setInt(1, er.getId());
+                            try (var additionalResult = additionalStatement.executeQuery()) {
+                                if (result.isBeforeFirst()) {
+                                    additionalResult.next();
+                                    er.setCreation(result.getTimestamp("created_at").toLocalDateTime());
+                                }
+                            }
+                        }
+                        e.setReport(er);
+                    }
+                    exams.add(e);
+                }
+                return exams;
+            }
+        }
+    }
+
     public void updateGrade(int examID, ExamResult result, Integer grade, Boolean laude) throws SQLException {
         var query = """
                 UPDATE

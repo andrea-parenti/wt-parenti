@@ -65,6 +65,10 @@ tbody tr:nth-child(odd) {
     padding: 1vw;
 }
 
+div.top-bar-element > h1 {
+    margin: auto;
+}
+
 a.button {
     border-style: solid;
     border-spacing: 3px;
@@ -125,10 +129,6 @@ td.hidden {
     justify-content: flex-start;
 }
 
-#top-bar-left > h1 {
-    margin: auto 0;
-}
-
 #top-bar-middle {
     height: 100%;
     display: flex;
@@ -138,10 +138,6 @@ td.hidden {
     margin-right: 0;
     margin-left: 0;
     align-items: center;
-}
-
-#top-bar-middle > h1 {
-    margin: auto;
 }
 
 #top-bar-right {
@@ -156,40 +152,31 @@ td.hidden {
     justify-content: flex-end;
 }
 
-#top-bar-right > h1 {
-    margin: auto 0;
-}
-
 a.button#logout {
-    /*background-image: linear-gradient(#fd5a0a, #bb3500);*/
     background-color: #fa702d;
     border-color: #bb3500;
     color: black;
 }
 
 a.button#refuse {
-    /*background-image: linear-gradient(#b40ae3,#070a8c);*/
     background-color: #c56bd5;
     border-color: #8c0cb7;
     color: black;
 }
 
 a.button#report {
-    /*background-image: linear-gradient(#44e30a,#0a6a1d);*/
     background-color: #68ee6d;
     border-color: #057a0b;
     color: black;
 }
 
 a.button#publish {
-    /*background-image: linear-gradient(#fecc4c,#ffac33);*/
     background-color: #fecc4c;
     border-color: #ffac33;
     color: black;
 }
 
 a.button#edit {
-    /*background-image: linear-gradient(#059bec, #000ad9);*/
     background-color: #33b3f6;
     border-color: #080c9b;
     color: black;

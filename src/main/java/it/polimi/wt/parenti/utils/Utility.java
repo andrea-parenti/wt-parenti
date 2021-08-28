@@ -20,7 +20,7 @@ public class Utility {
 
     public static final Gson getJsonParser() {
         if (jsonParser == null) {
-            jsonParser = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization().create();
+            jsonParser = new GsonBuilder().enableComplexMapKeySerialization().create();
         }
         return jsonParser;
     }
@@ -36,16 +36,5 @@ public class Utility {
                 .flatMap(Function.identity())
                 .collect(Collectors.toList());
         return options;
-    }
-
-    public static final void writeHttpResponse(HttpServletResponse response, int sc, String mime, String content)  {
-        response.setStatus(sc);
-        response.setContentType(mime);
-        try {
-            response.getWriter().println(content);
-        } catch (IOException e) {
-            e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
     }
 }
