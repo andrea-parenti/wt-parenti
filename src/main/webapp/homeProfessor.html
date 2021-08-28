@@ -24,8 +24,8 @@
     <main id="site-main">
         <div class="flex-container content-block-column">
             <div class="flex-container content-block-row">
-                <div class="flex-container">
-                    <table id="courses">
+                <div class="flex-container" id="courses-container">
+                    <table id="courses-table">
                         <thead>
                         <tr>
                             <th scope="col">Code</th>
@@ -35,8 +35,8 @@
                         <tbody></tbody>
                     </table>
                 </div>
-                <div class="not-flex-container">
-                    <table id="dates">
+                <div class="not-flex-container" id="dates-container">
+                    <table id="dates-table">
                         <thead>
                         <tr>
                             <th scope="col">Date</th>
@@ -46,7 +46,7 @@
                     </table>
                 </div>
             </div>
-            <div class="flex-container">
+            <div class="flex-container content-block-row" id="exam-session-container">
                 <table id="session-details">
                     <thead>
                     <tr>
@@ -72,6 +72,61 @@
                     </thead>
                     <tbody></tbody>
                 </table>
+                <div class="flex-container content-block-column" id="buttons-container">
+                    <a class="button" id="publish">Publish</a>
+                    <a class="button" id="report">Report</a>
+                </div>
+            </div>
+            <div class="flex-container content-block-row" id="selected-exam-container">
+                <div class="flex-container content-block-column" id="exam-data"></div>
+                <form action="#" id="update-grade-form">
+                    <label for="grade">Grade</label>
+                    <select name="grade" id="grade">
+                        <option value="missing">missing</option>
+                        <option value="rejected">rejected</option>
+                        <option value="sent back">sent back</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="30L">30L</option>
+                    </select>
+                    <input type="hidden" name="examId">
+                    <input type="button" name="submit" value="Submit Grade">
+                </form>
+            </div>
+            <div class="flex-container content-block-column" id="report-container">
+                <div id="report-data"></div>
+                <table id="report-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Matriculation</th>
+                        <th scope="col">Surname, Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Bachelor course</th>
+                        <th scope="col">Grade</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button id="close-report" name="close" value="close">Close report</button>
+            </div>
+            <div id="multiple-form-container">
+                <form id="multiple-form">
+                    <table id="multiple-table">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
             </div>
         </div>
     </main>

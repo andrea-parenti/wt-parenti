@@ -17,3 +17,17 @@ function makeCall(method, url, formElement, cbFunction) {
         request.send(new FormData(formElement));
     }
 }
+
+function makeJsonCall(method, url, jsonElement, cbFunction){
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        cbFunction(request);
+    };
+    request.open(method, url);
+    request.setRequestHeader("Content-Type", "application/json");
+    if (jsonElement == null) {
+        request.send();
+    } else {
+        request.send(new FormData(jsonElement));
+    }
+}
