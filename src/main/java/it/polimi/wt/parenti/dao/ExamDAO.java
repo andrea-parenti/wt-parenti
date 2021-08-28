@@ -6,6 +6,7 @@ import it.polimi.wt.parenti.utils.enumerations.ExamStatus;
 import it.polimi.wt.parenti.utils.enumerations.OrderType;
 import it.polimi.wt.parenti.utils.enumerations.SortableField;
 
+import javax.swing.text.html.Option;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -340,6 +341,126 @@ public class ExamDAO {
         }
     }
 
+    public List<Exam> getNotInsertedYetExams(int examSessionID) throws SQLException {
+        var query = """
+                SELECT
+                    E.id, E.status, E.result, E.grade, E.laude, E.exam_report_id,
+                    ES.id, ES.date,
+                    C.id, C.code, C.name,
+                    P.id, P.name, P.surname,
+                    S.id, S.matriculation, S.name, S.surname, S.email, S.bachelor_course
+                FROM
+                    exams AS E
+                    JOIN exam_sessions AS ES ON E.exam_session_id = ES.id
+                    JOIN courses AS C ON ES.course_id = C.id
+                    JOIN professors AS P ON C.professor_id = P.id
+                    JOIN students AS S ON E.student_id = S.id
+                WHERE
+                    ES.id = ? AND E.status = 'not inserted yet'
+                """;
+        var exams = new ArrayList<Exam>();
+        try (var statement = connection.prepareStatement(query)) {
+            statement.setInt(1, examSessionID);
+            try (var result = statement.executeQuery()) {
+                while (result.next()) {
+                    var s = new Student();
+                    s.setId(result.getInt("S.id"));
+                    s.setMatriculation(result.getInt("S.matriculation"));
+                    s.setName(result.getString("S.name"));
+                    s.setSurname(result.getString("S.surname"));
+                    s.setEmail(result.getString("S.email"));
+                    s.setBachelorCourse(result.getString("S.bachelor_course"));
+                    var p = new Professor();
+                    p.setId(result.getInt("P.id"));
+                    p.setName(result.getString("P.name"));
+                    p.setSurname(result.getString("P.surname"));
+                    var c = new Course();
+                    c.setId(result.getInt("C.id"));
+                    c.setCode(result.getString("C.code"));
+                    c.setName(result.getString("C.name"));
+                    c.setProfessor(p);
+                    var es = new ExamSession();
+                    es.setId(result.getInt("ES.id"));
+                    es.setDate(result.getDate("ES.date").toLocalDate());
+                    es.setCourse(c);
+                    var e = new Exam();
+                    e.setId(result.getInt("E.id"));
+                    e.setStatus(ExamStatus.fromString(result.getString("E.status")));
+                    e.setResult(ExamResult.fromString(result.getString("E.result")));
+                    e.setGrade(result.getInt("E.grade"));
+                    e.setLaude(result.getBoolean("E.laude"));
+                    e.setExamSession(es);
+                    e.setStudent(s);
+                    exams.add(e);
+                }
+                return exams;
+            }
+        }
+    }
+
+    public List<Exam> getReportedExams(int reportId) throws SQLException {
+        var query = """
+                SELECT
+                    E.id, E.status, E.result, E.grade, E.laude,
+                    ER.id, ER.created_at,
+                    ES.id, ES.date,
+                    C.id, C.code, C.name,
+                    P.id, P.name, P.surname,
+                    S.id, S.matriculation, S.name, S.surname, S.email, S.bachelor_course
+                FROM
+                    exams AS E
+                    JOIN exam_reports AS ER ON E.exam_report_id = ER.id
+                    JOIN exam_sessions AS ES ON E.exam_session_id = ES.id
+                    JOIN courses AS C ON ES.course_id = C.id
+                    JOIN professors AS P ON C.professor_id = P.id
+                    JOIN students AS S ON E.student_id = S.id
+                WHERE
+                    ER.id = ?
+                """;
+        var exams = new ArrayList<Exam>();
+        try (var statement = connection.prepareStatement(query)) {
+            statement.setInt(1, reportId);
+            try (var result = statement.executeQuery()) {
+                while (result.next()) {
+                    var s = new Student();
+                    s.setId(result.getInt("S.id"));
+                    s.setMatriculation(result.getInt("S.matriculation"));
+                    s.setName(result.getString("S.name"));
+                    s.setSurname(result.getString("S.surname"));
+                    s.setEmail(result.getString("S.email"));
+                    s.setBachelorCourse(result.getString("S.bachelor_course"));
+                    var p = new Professor();
+                    p.setId(result.getInt("P.id"));
+                    p.setName(result.getString("P.name"));
+                    p.setSurname(result.getString("P.surname"));
+                    var c = new Course();
+                    c.setId(result.getInt("C.id"));
+                    c.setCode(result.getString("C.code"));
+                    c.setName(result.getString("C.name"));
+                    c.setProfessor(p);
+                    var es = new ExamSession();
+                    es.setId(result.getInt("ES.id"));
+                    es.setDate(result.getDate("ES.date").toLocalDate());
+                    es.setCourse(c);
+                    var e = new Exam();
+                    e.setId(result.getInt("E.id"));
+                    e.setStatus(ExamStatus.fromString(result.getString("E.status")));
+                    e.setResult(ExamResult.fromString(result.getString("E.result")));
+                    e.setGrade(result.getInt("E.grade"));
+                    e.setLaude(result.getBoolean("E.laude"));
+                    e.setExamSession(es);
+                    e.setStudent(s);
+                    var er = new ExamReport();
+                    er.setId(result.getInt("ER.exam_report_id"));
+                    er.setCreation(result.getTimestamp("ER.created_at").toLocalDateTime());
+                    e.setReport(er);
+                    exams.add(e);
+                }
+                return exams;
+            }
+        }
+    }
+
     public void updateGrade(int examID, ExamResult result, Integer grade, Boolean laude) throws SQLException {
         var query = """
                 UPDATE
@@ -503,6 +624,26 @@ public class ExamDAO {
                 if (!result.isBeforeFirst()) return false;
                 result.next();
                 return result.getInt(1) == 0 ? false : true;
+            }
+        }
+    }
+
+    public Optional<Integer> getExamSessionIdByReport(int reportId) throws SQLException {
+        var query = """
+                SELECT
+                    DISTINCT(exam_session_id)
+                FROM
+                    exams
+                WHERE
+                    exam_report_id = ?
+                """;
+        try (var statement = connection.prepareStatement(query)) {
+            statement.setInt(1, reportId);
+            try (var result = statement.executeQuery()) {
+                if (!result.isBeforeFirst()) return Optional.empty();
+                result.next();
+                var examSessionId = result.getInt("exam_session_id");
+                return Optional.of(examSessionId);
             }
         }
     }

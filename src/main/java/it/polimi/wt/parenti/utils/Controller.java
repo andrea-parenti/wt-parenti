@@ -2,7 +2,8 @@ package it.polimi.wt.parenti.utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,10 +28,11 @@ public abstract class Controller extends HttpServlet {
         }
     }
 
-    public static final void writeHttpResponse(HttpServletResponse response, int sc, String mime, String content)  {
+    public static final void writeHttpResponse(HttpServletResponse response, int sc, String mime, String content) {
         response.setCharacterEncoding("UTF-8");
         response.setStatus(sc);
         response.setContentType(mime);
+        if (content == null) return;
         try {
             response.getWriter().println(content);
         } catch (IOException e) {

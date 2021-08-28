@@ -13,6 +13,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@MultipartConfig
 public class RefuseServlet extends Controller {
     @Serial
     private static final long serialVersionUID = 1L;

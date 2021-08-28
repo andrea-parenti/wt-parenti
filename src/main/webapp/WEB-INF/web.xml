@@ -110,7 +110,7 @@
 
     <servlet>
         <servlet-name>ReportServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.ReportServlet</servlet-class>
+        <servlet-class>it.polimi.wt.parenti.controllers.Report</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ReportServlet</servlet-name>

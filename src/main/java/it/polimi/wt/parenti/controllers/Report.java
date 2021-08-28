@@ -3,36 +3,39 @@ package it.polimi.wt.parenti.controllers;
 import it.polimi.wt.parenti.beans.Professor;
 import it.polimi.wt.parenti.dao.ExamDAO;
 import it.polimi.wt.parenti.dao.ProfessorDAO;
+import it.polimi.wt.parenti.utils.ConnectionManager;
 import it.polimi.wt.parenti.utils.Controller;
-import it.polimi.wt.parenti.utils.Utility;
 import org.apache.commons.text.StringEscapeUtils;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.Serial;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 @MultipartConfig
-public class GetSessionDetails extends Controller {
+public class Report extends Controller {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public GetSessionDetails() {
+    public Report() {
         super();
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         var selectedExamSession = StringEscapeUtils.escapeJava(request.getParameter("examSessionId"));
         if ((selectedExamSession == null) || selectedExamSession.isBlank()) {
             writeHttpResponse(response, HttpServletResponse.SC_BAD_REQUEST, "text/plain", "Missing necessary \"examSessionId\" parameter!");
             return;
-        }
-        var multipleParam = StringEscapeUtils.escapeJava(request.getParameter("multiple"));
-        var multiple = false;
-        if ((multipleParam != null) && (multipleParam.equals("1"))) {
-            multiple = true;
         }
         var p = (Professor) request.getSession().getAttribute("professor");
         var pDao = new ProfessorDAO(connection);
@@ -44,13 +47,8 @@ public class GetSessionDetails extends Controller {
                 writeHttpResponse(response, HttpServletResponse.SC_FORBIDDEN, "text/plain", "Forbidden query on course!");
                 return;
             }
-            var exams = (multiple) ? eDao.getNotInsertedYetExams(examSessionId) : eDao.getSessionDetails(examSessionId);
-            if (!exams.isEmpty()) {
-                var json = Utility.getJsonParser().toJson(exams);
-                writeHttpResponse(response, HttpServletResponse.SC_OK, "application/json", json);
-            } else {
-                writeHttpResponse(response, HttpServletResponse.SC_NOT_FOUND, "text/plain", "No exams found for the requested exam session!");
-            }
+            eDao.publish(examSessionId);
+            writeHttpResponse(response, HttpServletResponse.SC_OK, "text/plain", null);
             return;
         } catch (NumberFormatException e) {
             writeHttpResponse(response, HttpServletResponse.SC_BAD_REQUEST, "text/plain", "Invalid \"examSessionId\" parameter!");

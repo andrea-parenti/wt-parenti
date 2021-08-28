@@ -6,12 +6,14 @@ import it.polimi.wt.parenti.utils.Controller;
 import it.polimi.wt.parenti.utils.Utility;
 import org.apache.commons.text.StringEscapeUtils;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serial;
 import java.sql.SQLException;
 
+@MultipartConfig
 public class GetExamDetail extends Controller {
     @Serial
     private static final long serialVersionUID = 1L;

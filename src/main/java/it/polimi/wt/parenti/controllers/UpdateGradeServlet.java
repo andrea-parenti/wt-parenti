@@ -4,6 +4,7 @@ import it.polimi.wt.parenti.beans.Professor;
 import it.polimi.wt.parenti.dao.ExamDAO;
 import it.polimi.wt.parenti.dao.ProfessorDAO;
 import it.polimi.wt.parenti.utils.ConnectionManager;
+import it.polimi.wt.parenti.utils.Controller;
 import it.polimi.wt.parenti.utils.Utility;
 import it.polimi.wt.parenti.utils.enumerations.ExamResult;
 import it.polimi.wt.parenti.utils.enumerations.ExamStatus;
@@ -14,6 +15,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +25,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UpdateGradeServlet extends HttpServlet {
+@MultipartConfig
+public class UpdateGradeServlet extends Controller {
     @Serial
     private static final long serialVersionUID = 1L;
     private Connection connection;

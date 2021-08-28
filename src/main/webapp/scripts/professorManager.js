@@ -116,7 +116,7 @@
 
         this.show = (courseId) => {
             const self = this;
-            makeCall("GET", "GetSessionDates?courseId=" + courseId, null, (req) => {
+            makeCall("GET", "GetSessionDatesProfessor?courseId=" + courseId, null, (req) => {
                     if (req.readyState == XMLHttpRequest.DONE) {
                         const res = req.responseText;
                         switch (req.status) {
@@ -353,8 +353,8 @@
                     const res = req.responseText;
                     switch (req.status) {
                         case 200:
-                            const exams = JSON.parse(res);
-                            self.update(exams);
+                            const exam = JSON.parse(res);
+                            self.update(exam);
                             self.alertContainer.style.visibility = "hidden";
                             self.updateGradeContainer.style.visibility = "visible";
                             break;
@@ -441,7 +441,7 @@
                                 const report = JSON.parse(req.responseText);
                                 self.reportContainer.style.visibility = "visible";
                                 self.alertContainer.style.visibility = "hidden";
-                                let reportText = "Reported in: " + report.timestamp;
+                                let reportText = "Reported in: " + report.creation;
                                 let reportInfo = document.createTextNode(reportText);
                                 this.reportData.appendChild(reportInfo);
                                 self.update(report.exams);
