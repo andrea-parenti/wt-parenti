@@ -64,6 +64,60 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>GetSessionDetails</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.GetSessionDetails</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetSessionDetails</servlet-name>
+        <url-pattern>/GetSessionDetails</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetExamDetail</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.GetExamDetail</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetExamDetail</servlet-name>
+        <url-pattern>/GetExamDetail</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Publish</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.Publish</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Publish</servlet-name>
+        <url-pattern>/Publish</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Report</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.Report</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Report</servlet-name>
+        <url-pattern>/Report</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Update</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.Update</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Update</servlet-name>
+        <url-pattern>/Update</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetReport</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.GetReport</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetReport</servlet-name>
+        <url-pattern>/GetReport</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>GetCoursesStudent</servlet-name>
         <servlet-class>it.polimi.wt.parenti.controllers.GetCoursesStudent</servlet-class>
     </servlet>
@@ -82,48 +136,21 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>GetSessionDetails</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.GetSessionDetails</servlet-class>
+        <servlet-name>Refuse</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.Refuse</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>GetSessionDetails</servlet-name>
-        <url-pattern>/GetSessionDetails</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>UpdateGradeServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.UpdateGradeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UpdateGradeServlet</servlet-name>
-        <url-pattern>/UpdateGrade</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>PublishServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.Publish</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PublishServlet</servlet-name>
-        <url-pattern>/Publish</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ReportServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.Report</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ReportServlet</servlet-name>
-        <url-pattern>/Report</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>RefuseServlet</servlet-name>
-        <servlet-class>it.polimi.wt.parenti.controllers.RefuseServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RefuseServlet</servlet-name>
+        <servlet-name>Refuse</servlet-name>
         <url-pattern>/Refuse</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetExamResult</servlet-name>
+        <servlet-class>it.polimi.wt.parenti.controllers.GetExamResult</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetExamResult</servlet-name>
+        <url-pattern>/GetExamResult</url-pattern>
     </servlet-mapping>
 
     <!--FILTERS-->
@@ -134,8 +161,7 @@
     </filter>
     <filter-mapping>
         <filter-name>NoCacheFilter</filter-name>
-        <url-pattern>/homeProfessor.html</url-pattern>
-        <url-pattern>/homeStudent.html</url-pattern>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -144,14 +170,21 @@
     </filter>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
-        <url-pattern>/HomeStudent</url-pattern>
-        <url-pattern>/HomeProfessor</url-pattern>
-        <url-pattern>/ExamResult</url-pattern>
-        <url-pattern>/RegisteredStudents</url-pattern>
-        <url-pattern>/UpdateGrade</url-pattern>
+        <url-pattern>/Logout</url-pattern>
+
+        <url-pattern>/GetCoursesProfessor</url-pattern>
+        <url-pattern>/GetSessionDatesProfessor</url-pattern>
+        <url-pattern>/GetSessionDetails</url-pattern>
+        <url-pattern>/GetExamDetail</url-pattern>
         <url-pattern>/Publish</url-pattern>
         <url-pattern>/Report</url-pattern>
+        <url-pattern>/Update</url-pattern>
+        <url-pattern>/GetReport</url-pattern>
+
+        <url-pattern>/GetCoursesStudent</url-pattern>
+        <url-pattern>/GetSessionDatesStudent</url-pattern>
         <url-pattern>/Refuse</url-pattern>
+        <url-pattern>/GetExamResult</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -160,9 +193,11 @@
     </filter>
     <filter-mapping>
         <filter-name>StudentFilter</filter-name>
-        <url-pattern>/HomeStudent</url-pattern>
-        <url-pattern>/ExamResult</url-pattern>
+        <url-pattern>/homeStudent.html</url-pattern>
+        <url-pattern>/GetCoursesStudent</url-pattern>
+        <url-pattern>/GetSessionDatesStudent</url-pattern>
         <url-pattern>/Refuse</url-pattern>
+        <url-pattern>/GetExamResult</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -171,11 +206,15 @@
     </filter>
     <filter-mapping>
         <filter-name>ProfessorFilter</filter-name>
-        <url-pattern>/HomeProfessor</url-pattern>
-        <url-pattern>/RegisteredStudents</url-pattern>
-        <url-pattern>/UpdateGrade</url-pattern>
+        <url-pattern>/homeProfessor.html</url-pattern>
+        <url-pattern>/GetCoursesProfessor</url-pattern>
+        <url-pattern>/GetSessionDatesProfessor</url-pattern>
+        <url-pattern>/GetSessionDetails</url-pattern>
+        <url-pattern>/GetExamDetail</url-pattern>
         <url-pattern>/Publish</url-pattern>
         <url-pattern>/Report</url-pattern>
+        <url-pattern>/Update</url-pattern>
+        <url-pattern>/GetReport</url-pattern>
     </filter-mapping>
 
     <!--OTHER CONFIGURATIONS-->

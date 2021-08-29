@@ -8,7 +8,7 @@ public class ExamReport implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private int id;
-    private LocalDateTime creation;
+    private String creation;
 
     public int getId() {
         return id;
@@ -18,11 +18,11 @@ public class ExamReport implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getCreation() {
+    public String getCreation() {
         return creation;
     }
 
     public void setCreation(LocalDateTime creation) {
-        this.creation = creation;
+        this.creation = creation.toString();
     }
 }

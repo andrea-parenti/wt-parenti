@@ -1,0 +1,43 @@
+/* CLASSES */
+
+th.sortable {
+    color: red;
+    text-decoration: none;
+}
+
+td.transparent {
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+/* IDS */
+
+div#cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+}
+
+#multiple-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#multiple-form {
+    display: inline-block;
+    margin: 0 auto;
+    width: 90%;
+    border: 1px solid black;
+    vertical-align: middle;
+}

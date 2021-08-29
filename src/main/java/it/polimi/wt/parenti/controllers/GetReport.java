@@ -57,9 +57,11 @@ public class GetReport extends Controller {
                 writeHttpResponse(response, HttpServletResponse.SC_FORBIDDEN, "text/plain", "Forbidden query on course!");
                 return;
             }
+            var course = checkedExamSession.get().getCourse().getName();
+            var date = checkedExamSession.get().getDate();
             var exams = eDao.getReportedExams(checkedReport.getId());
             if (!exams.isEmpty()) {
-                var json = new ReportJson(checkedReport.getCreation(), exams);
+                var json = new ReportJson(checkedReport.getCreation(), course, date, exams);
                 writeHttpResponse(response, HttpServletResponse.SC_OK, "application/json", json.serialize());
             } else {
                 writeHttpResponse(response, HttpServletResponse.SC_NOT_FOUND, "text/plain", "No exams found for the requested exam session!");
@@ -75,11 +77,15 @@ public class GetReport extends Controller {
     }
 
     private class ReportJson implements Serializable {
-        private final LocalDateTime creation;
+        private final String creation;
+        private final String course;
+        private final String date;
         private final List<Exam> exams;
 
-        private ReportJson(LocalDateTime creation, List<Exam> exams) {
+        private ReportJson(String creation, String course, String date, List<Exam> exams) {
             this.creation = creation;
+            this.course = course;
+            this.date = date;
             this.exams = new ArrayList<>(exams);
         }
 

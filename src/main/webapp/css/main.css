@@ -78,17 +78,6 @@ a.button {
     text-decoration: none;
 }
 
-a.sortable {
-    color: red;
-    text-decoration: none;
-}
-
-td.transparent {
-    padding: 0;
-    border: 0;
-    background: white;
-}
-
 /* IDS */
 
 #site-wrapper {

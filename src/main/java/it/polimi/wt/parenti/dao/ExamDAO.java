@@ -499,7 +499,7 @@ public class ExamDAO {
         }
     }
 
-    public void report(int examSessionID) throws SQLException {
+    public int report(int examSessionID) throws SQLException {
         var createReport = """
                 INSERT INTO
                     exam_reports (created_at)
@@ -555,6 +555,7 @@ public class ExamDAO {
             s4.executeUpdate();
 
             connection.commit();
+            return examReportID;
         } catch (SQLException e) {
             connection.rollback();
             throw e;

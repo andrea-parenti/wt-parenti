@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Professor</title>
+    <link href="css/main.css" media="all" rel="stylesheet" type="text/css"/>
+    <script src="scripts/ajax.js" type="text/javascript" defer></script>
+    <script src="scripts/studentManager.js" type="text/javascript" defer></script>
+</head>
+<body>
+<div id="site-wrapper">
+    <nav id="top-bar">
+        <div class="top-bar-element" id="top-bar-left">
+            <h1 id="personal-message"></h1>
+        </div>
+        <div class="top-bar-element" id="top-bar-middle">
+            <p id="alert"></p>
+        </div>
+        <div class="top-bar-element" id="top-bar-right">
+            <a class="button" id="logout" href="Logout">Logout</a>
+        </div>
+    </nav>
+    <main id="site-main">
+        <div class="flex-container content-block-column">
+            <div class="flex-container content-block-row">
+                <div class="flex-container" id="courses-container">
+                    <table id="courses-table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Code</th>
+                            <th scope="col">Name</th>
+                        </tr>
+                        </thead>
+                        <tbody id="courses-list"></tbody>
+                    </table>
+                </div>
+                <div class="not-flex-container" id="dates-container">
+                    <table id="dates-table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                        </tr>
+                        </thead>
+                        <tbody id="dates-list"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="flex-container content-block-row" id="selected-exam-container">
+                <div class="flex-container content-block-column" id="exam-data">
+                    <p id="grade"></p>
+                    <p id="course"></p>
+                    <p id="professor"></p>
+                    <p id="date"></p>
+                </div>
+                <form action="#" id="refuse-grade-form">
+                    <input type="hidden" name="examId" class="examId">
+                    <input type="button" name="refuse" class="refuse" value="Refuse Grade">
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

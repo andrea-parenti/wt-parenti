@@ -3,12 +3,13 @@ package it.polimi.wt.parenti.beans;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ExamSession implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private int id;
-    private LocalDate date;
+    private String date;
     private Course course;
 
     public int getId() {
@@ -19,12 +20,12 @@ public class ExamSession implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
     public void setDate(LocalDate date) {
-        this.date = date;
+        this.date = date.toString();
     }
 
     public Course getCourse() {

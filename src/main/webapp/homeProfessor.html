@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Home Professor</title>
     <link href="css/main.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="css/professor.css" media="all" rel="stylesheet" type="text/css"/>
     <script src="scripts/ajax.js" type="text/javascript" defer></script>
     <script src="scripts/professorManager.js" type="text/javascript" defer></script>
     <script src="scripts/sort.js" type="text/javascript" defer></script>
@@ -32,7 +33,7 @@
                             <th scope="col">Name</th>
                         </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="courses-list"></tbody>
                     </table>
                 </div>
                 <div class="not-flex-container" id="dates-container">
@@ -42,46 +43,55 @@
                             <th scope="col">Date</th>
                         </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="dates-list"></tbody>
                     </table>
                 </div>
             </div>
-            <div class="flex-container content-block-row" id="exam-session-container">
-                <table id="session-details">
+            <div class="flex-container content-block-row" id="exams-container">
+                <table id="exams-table">
                     <thead>
                     <tr>
-                        <th scope="col">
-                            <a class="sortable">Matriculation</a>
+                        <th scope="col" class="sortable">
+                            Matriculation
                         </th>
-                        <th scope="col">
-                            <a class="sortable">Surname, Name</a>
+                        <th scope="col" class="sortable">
+                            Surname, Name
                         </th>
-                        <th scope="col">
-                            <a class="sortable">Email</a>
+                        <th scope="col" class="sortable">
+                            Email
                         </th>
-                        <th scope="col">
-                            <a class="sortable">Bachelor course</a>
+                        <th scope="col" class="sortable">
+                            Bachelor course
                         </th>
-                        <th scope="col">
-                            <a class="sortable">Grade</a>
+                        <th scope="col" class="sortable">
+                            Grade
                         </th>
-                        <th scope="col">
-                            <a class="sortable">Status</a>
+                        <th scope="col" class="sortable">
+                            Status
                         </th>
                     </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody id="exams-list"></tbody>
                 </table>
-                <div class="flex-container content-block-column" id="buttons-container">
-                    <a class="button" id="publish">Publish</a>
-                    <a class="button" id="report">Report</a>
-                </div>
+                <form id="examSession-form" action="#">
+                    <fieldset>
+                        <input type="hidden" name="examSessionId" class="examSessionId">
+                        <input type="button" name="publish" value="publish" class="publish">
+                        <input type="button" name="report" value="report" class="report">
+                        <input type="button" name="multiple" value="multiple" class="multiple">
+                    </fieldset>
+                </form>
             </div>
             <div class="flex-container content-block-row" id="selected-exam-container">
-                <div class="flex-container content-block-column" id="exam-data"></div>
+                <div class="flex-container content-block-column" id="exam-data">
+                    <p id="matriculation"></p>
+                    <p id="name"></p>
+                    <p id="grade"></p>
+                    <p id="status"></p>
+                </div>
                 <form action="#" id="update-grade-form">
                     <label for="grade">Grade</label>
-                    <select name="grade" id="grade">
+                    <select name="grade" class="grade">
                         <option value="missing">missing</option>
                         <option value="rejected">rejected</option>
                         <option value="sent back">sent back</option>
@@ -100,34 +110,54 @@
                         <option value="30">30</option>
                         <option value="30L">30L</option>
                     </select>
-                    <input type="hidden" name="examId">
-                    <input type="button" name="submit" value="Submit Grade">
+                    <input type="hidden" name="examId" class="examId">
+                    <input type="hidden" name="examSessionId" class="examSessionId">
+                    <input type="button" name="update" class="update" value="Update Grade">
                 </form>
             </div>
             <div class="flex-container content-block-column" id="report-container">
-                <div id="report-data"></div>
-                <table id="report-table">
+                <p id="report-info"></p>
+                <table id="reported-exams-table">
                     <thead>
                     <tr>
                         <th scope="col">Matriculation</th>
                         <th scope="col">Surname, Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Bachelor course</th>
                         <th scope="col">Grade</th>
                     </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody id="reported-exams-list"></tbody>
                 </table>
-                <button id="close-report" name="close" value="close">Close report</button>
+                <input type="button" name="close" value="close" class="close">
             </div>
-            <div id="multiple-form-container">
-                <form id="multiple-form">
-                    <table id="multiple-table">
-                        <thead></thead>
-                        <tbody></tbody>
-                    </table>
-                </form>
-            </div>
+        </div>
+        <div id="multiple-form-container">
+            <form id="multiple-form">
+                <table id="exams-multiple-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            Matriculation
+                        </th>
+                        <th scope="col">
+                            Surname, Name
+                        </th>
+                        <th scope="col">
+                            Grade
+                        </th>
+                        <th scope="col">
+                            Status
+                        </th>
+                        <th scope="col">
+                            Selection
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="exams-multiple-list"></tbody>
+                </table>
+                <input type="hidden" name="examSessionId" class="examSessionId">
+                <input type="button" name="update" value="update" class="update">
+                <input type="button" name="cancel" value="cancel" class="cancel">
+            </form>
         </div>
     </main>
 </div>

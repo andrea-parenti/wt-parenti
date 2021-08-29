@@ -28,6 +28,6 @@ function makeJsonCall(method, url, jsonElement, cbFunction){
     if (jsonElement == null) {
         request.send();
     } else {
-        request.send(new FormData(jsonElement));
+        request.send(jsonElement);
     }
 }
