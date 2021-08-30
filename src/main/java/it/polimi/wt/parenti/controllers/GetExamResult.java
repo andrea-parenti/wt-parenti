@@ -35,7 +35,7 @@ public class GetExamResult extends Controller {
             var examSessionId = Integer.parseInt(selectedExamSession);
             var exam = eDao.getDetails(examSessionId, s.getId());
             if (exam.isPresent()) {
-                var json = Utility.getJsonParser().toJson(exam);
+                var json = Utility.getJsonParser().toJson(exam.get());
                 writeHttpResponse(response, HttpServletResponse.SC_OK, "application/json", json);
             } else {
                 writeHttpResponse(response, HttpServletResponse.SC_NOT_FOUND, "text/plain", "No exams found for the requested exam session!");
